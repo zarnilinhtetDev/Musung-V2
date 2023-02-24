@@ -66,7 +66,30 @@ class UserManagementController extends Controller
 
     public function update(Request $request)
     {
-      
+        $this->validate($request, [
+            'name' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'role' => 'required'
+        ]);
+
+        $user = User::where('id', '=', $request->uid)->first();
+
+        var_dump($request->line);
+        die();
+
+        $user->update($request->all());
+
+        return redirect('/user');
+    }
+
+    public function delete($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+
+        return redirect('/user');
     }
 
     public function putUser()
@@ -93,35 +116,21 @@ class UserManagementController extends Controller
         return redirect('/member');
     }
 
-    public function deleteUser()
-    {
-        $id = request()->get('id');
 
-        $request = Request::create(
-            '/api/user_delete',
-            'PUT',
-            [
-                'id' => request()->get('id'),
-            ]
-        );
-        $response = Route::dispatch($request);
 
-        return redirect('/member');
-    }
+    // public function undoUser()
+    // {
+    //     $id = request()->get('id');
 
-    public function undoUser()
-    {
-        $id = request()->get('id');
+    //     $request = Request::create(
+    //         '/api/user_undo',
+    //         'PUT',
+    //         [
+    //             'id' => request()->get('id'),
+    //         ]
+    //     );
+    //     $response = Route::dispatch($request);
 
-        $request = Request::create(
-            '/api/user_undo',
-            'PUT',
-            [
-                'id' => request()->get('id'),
-            ]
-        );
-        $response = Route::dispatch($request);
-
-        return redirect('/member');
-    }
+    //     return redirect('/member');
+    // }
 }

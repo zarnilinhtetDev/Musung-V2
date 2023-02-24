@@ -29,3 +29,4 @@ Route::get('/user', [UserManagementController::class, 'index'])->name('user')->m
 Route::post('/user/add', [UserManagementController::class, 'store'])->name('user.add')->middleware('auth');
 Route::get('/user/edit/{id}', [UserManagementController::class, 'edit'])->name('user.edit')->middleware('auth');
 Route::post('/user/update', [UserManagementController::class, 'update'])->name('user.update')->middleware('auth');
+Route::get('/user/delete/{id}', [UserManagementController::class, 'delete'])->name('user.delete')->middleware('auth');

@@ -102,7 +102,11 @@
                                             data-role="{{ $user->role }}" data-line_id="{{ $user->line_id }}"
                                             data-remark="{{ $user->remark }}"
                                             data-active_status="{{ $user->active_status }}" data-toggle="modal"
-                                            data-target="#editModal1">Edit</a>
+                                            data-target="#editModal1"><i class='fas fa-pencil-alt'></i></a>
+                                        <a href="{{ url("/user/delete/".$user->id) }}" type="button" class="btn
+                                            btn-danger text-white"
+                                            onclick="return confirm('Are you sure to delete?')"><i
+                                                class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -197,7 +201,7 @@
                             <div class="my-4">
                                 <h1 class="fw-bold heading-text mb-2">Update User</h1>
                                 <div class="row g-3 my-2">
-                                    <input type="hidden" id="userid" name="userid">
+                                    <input type="hidden" id="uid" name="uid">
                                     <div class="col-12 col-md-4 form-group">
                                         <label>Name</label>​
                                         <input type="text" class="form-control" id="name" name="name" placeholder="Name"
@@ -289,9 +293,7 @@
         var line_id = button.data('line_id');
         var remark = button.data('remark');
         var active_status = button.data('active_status');
-        alert(active_status);
-
-        // console.log(name);
+        // alert(active_status);
 
         var modal = $(this);
 
