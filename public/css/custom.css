@@ -1,0 +1,28 @@
+body {
+    /* background-image: url('../images/b2.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%; */
+}
+
+.login-card {
+    padding: 1.5em .5em .5em;
+    border-radius: 2em;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+.register-card {
+    padding: 1.5em .5em .5em;
+    border-radius: 2em;
+    text-align: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+.custom-btn-theme {
+    float: right;
+}
+
+.icon-btn-one {
+    background-color: #6495ed;
+    color: #fff;
+}
