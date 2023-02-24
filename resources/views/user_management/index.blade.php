@@ -72,6 +72,10 @@
                                     <td>Operator</td>
                                     @elseif($user->role == 3)
                                     <td>Line Manager</td>
+                                    @elseif($user->role == 98)
+                                    <td>Owner</td>
+                                    @elseif($user->role == 97)
+                                    <td>Viewer</td>
                                     @endif
 
                                     @if($user->line_id == 0)
@@ -285,8 +289,9 @@
         var line_id = button.data('line_id');
         var remark = button.data('remark');
         var active_status = button.data('active_status');
-        alert(name);
+        alert(active_status);
 
+        // console.log(name);
 
         var modal = $(this);
 
