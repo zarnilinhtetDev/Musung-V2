@@ -29,59 +29,95 @@ class UserManagementController extends Controller
 
         $users = User::all();
         $lines = Line::all();
-        return view('user_management.index', ['users' => $users, 'lines' => $lines]);
+        $admins = DB::table('users')
+            ->where('role', '=', 1)
+            ->get();
+
+        $operators = DB::table('users')
+            ->where('role', '=', 2)
+            ->get();
+
+        $managers = DB::table('users')
+            ->where('role', '=', 3)
+            ->get();
+
+        $owners = DB::table('users')
+            ->where('role', '=', 98)
+            ->get();
+
+        $viewers = DB::table('users')
+            ->where('role', '=', 97)
+            ->get();
+
+        return view('user_management.index', ['users' => $users, 'lines' => $lines, 'admins' => $admins, 'operators' => $operators, 'managers' => $managers, 'owners' => $owners, 'viewers' => $viewers]);
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'username' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'role' => 'required'
+            'name' => ['required'],
+            'username' =>  ['required'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            // 'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required'],
+            'role' =>  ['required']
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => Hash::make(
+                $request->password
+            ),
             'role' => $request->role,
             'line_id' => $request->line,
             'remark' => $request->note,
         ]);
         if ($user == true) {
-            return redirect('/user');
+            return redirect('/user')->with('success', 'User Added Successfully!');
         }
     }
 
-    public function edit($id)
-    {
-        $product = User::find($id);
-        $users = User::all();
-        $lines = Line::all();
-        return view('user_management.index', ['users' => $users, 'lines' => $lines, 'product' => $product]);
-    }
 
     public function update(Request $request)
     {
+
         $this->validate($request, [
-            'name' => 'required',
-            'username' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'role' => 'required'
+            'name' => ['required'],
+            'username' =>  ['required'],
+            'email' => ['required'],
+            'role' =>  ['required']
         ]);
+
+
+        if (isset($request->password2)) {
+            $password = $request->password2;
+        } else {
+            $password = $request->password1;
+        }
+
+        if (isset($request->checkstatus)) {
+            $status = $request->checkstatus;
+        } else {
+            $status = 0;
+        }
 
         $user = User::where('id', '=', $request->uid)->first();
 
-        var_dump($request->line);
-        die();
 
-        $user->update($request->all());
+        $user->update([
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($password),
+            'role' => $request->role,
+            'line_id' => $request->line,
+            'remark' => $request->note,
+            'active_status' =>  $status,
+        ]);
 
-        return redirect('/user');
+        return redirect('/user')->with('success', 'User Updated Successfully!');
     }
 
     public function delete($id)
@@ -89,48 +125,6 @@ class UserManagementController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return redirect('/user');
+        return redirect('/user')->with('error', 'User Deleted Successfully!');
     }
-
-    public function putUser()
-    {
-        $name = request()->get('name');
-        $username = request()->get('username');
-        $password = Hash::make(request()->get('password'));
-        $password_2 = Hash::make(request()->get('password2'));
-        $email = request()->get('email');
-        $role = request()->get('role');
-        $line_id = request()->get('line');
-        $note = request()->get('note');
-        $user_id = request()->get('id');
-
-        if ($password_2 == "") {
-            $sql = DB::update("UPDATE users SET name=?,username=?,password=?,email=?,role=?,line_id=?,remark=?,updated_at=? WHERE id=?", [$name, $username, $password, $email, $role, $line_id, $note, NOW(), $user_id]);
-            DB::disconnect('musung');
-        }
-        if ($password_2 != "") {
-            $sql = DB::update("UPDATE users SET name=?,username=?,password=?,email=?,role=?,line_id=?,remark=?,updated_at=? WHERE id=?", [$name, $username, $password_2, $email, $role, $line_id, $note, NOW(), $user_id]);
-            DB::disconnect('musung');
-        }
-
-        return redirect('/member');
-    }
-
-
-
-    // public function undoUser()
-    // {
-    //     $id = request()->get('id');
-
-    //     $request = Request::create(
-    //         '/api/user_undo',
-    //         'PUT',
-    //         [
-    //             'id' => request()->get('id'),
-    //         ]
-    //     );
-    //     $response = Route::dispatch($request);
-
-    //     return redirect('/member');
-    // }
 }

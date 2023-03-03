@@ -4,6 +4,8 @@
 
 @section('content')
 
+@if(Auth::user()->role != 3)
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -474,6 +476,6 @@
     <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
-
+@endif
+{{-- @endadmin --}}
 @endsection
