@@ -49,6 +49,9 @@
                 <div class="card">
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <div class="form-group">
+                            <a class="btn btn-info" href="">Export File</a>
+                        </div>
                         <table id="itemtable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -68,7 +71,7 @@
                                     <td>{{ $index++ }}</td>
                                     <td>{{ $item->item_name }}</td>
                                     <td>{{ $item->remark }}</td>
-                                    @if($item->active_status == 1)
+                                    @if($item->active_status == 0)
                                     <td><i class="fas fa-check-circle text-success"></i></td>
                                     @else
                                     <td><i class="fas fa-times-circle text-danger"></i></td>
@@ -76,12 +79,12 @@
 
                                     <td>
                                         <a type="button" class="btn btn-primary text-white"
-                                            data-item_name="{{ $item->item_name }}" data-id="{{ $item->id }}"
+                                            data-item_name="{{ $item->item_name }}" data-id="{{ $item->item_id }}"
                                             data-remark="{{ $item->remark }}"
                                             data-active_status="{{ $item->active_status }}" data-toggle="modal"
                                             data-target="#editModal1"><i class='fas fa-pencil-alt'></i></a>
 
-                                        <a href="{{ url("/item/delete/".$item->id) }}" type="button" class="btn
+                                        <a href="{{ url("/item/delete/".$item->item_id) }}" type="button" class="btn
                                             btn-danger text-white"
                                             onclick="return confirm('Are you sure to delete?')"><i
                                                 class="fas fa-trash"></i></a>
@@ -169,7 +172,7 @@
                                 <div class="row g-3 my-2">
                                     <div class="col-12 col-md-4 form-group">
                                         <input class="mr-2" type="checkbox" id="checkstatus" name="checkstatus"
-                                            value="1">
+                                            value="0">
                                         <label>Status</label>
                                     </div>
 
@@ -210,7 +213,7 @@
         var remark = button.data('remark');
         var status = button.data('active_status');
 
-        if(status == 1){
+        if(status == 0){
         $("#checkstatus").attr('checked', true);
         }else{
         $("#checkstatus").attr('checked', false);

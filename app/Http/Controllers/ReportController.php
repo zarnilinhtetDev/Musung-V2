@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class LineEntryController extends Controller
+class ReportController extends Controller
 {
     public function __construct()
     {
@@ -21,13 +20,7 @@ class LineEntryController extends Controller
 
     public function index()
     {
-        $items = Item::all();
-        return view('line_entry.index', ['items' => $items]);
-    }
 
-    public function line_entry(string $id)
-    {
-        $items = Item::all();
-        return view('line_entry.line_entry', ['items' => $items]);
+        return view('report.index');
     }
 }

@@ -38,6 +38,12 @@
                     Create New Member
                 </button>
             </div>
+
+            {{-- Export excel --}}
+            {{-- <div class="form-group">
+                <a class="btn btn-info" href="{{ route('export') }}">Export File</a>
+            </div> --}}
+
         </div>
     </div><!-- /.container-fluid -->
 </section>
@@ -108,16 +114,18 @@
                                                 <td>{{ $user->username }}</td>
                                                 <td>{{ $user->email }}</td>
 
-                                                @if($user->role == 1)
+                                                @if($user->role == 0)
                                                 <td>Admin</td>
-                                                @elseif($user->role == 2)
+                                                @elseif($user->role == 1)
                                                 <td>Operator</td>
-                                                @elseif($user->role == 3)
+                                                @elseif($user->role == 2)
                                                 <td>Line Manager</td>
-                                                @elseif($user->role == 98)
-                                                <td>Owner</td>
                                                 @elseif($user->role == 97)
                                                 <td>Viewer</td>
+                                                @elseif($user->role == 98)
+                                                <td>Owner</td>
+                                                @elseif($user->role == 99)
+                                                <td></td>
                                                 @endif
 
                                                 @if($user->line_id == 0)
@@ -197,7 +205,7 @@
                                                 <td>{{ $admin->username }}</td>
                                                 <td>{{ $admin->email }}</td>
 
-                                                @if($admin->role == 1)
+                                                @if($admin->role == 0)
                                                 <td>Admin</td>
                                                 @endif
 
@@ -281,7 +289,7 @@
                                                 <td>{{ $operator->email }}</td>
 
 
-                                                @if($operator->role == 2)
+                                                @if($operator->role == 1)
                                                 <td>Operator</td>
 
                                                 @endif
@@ -368,7 +376,7 @@
                                                 <td>{{ $manager->email }}</td>
 
 
-                                                @if($manager->role == 3)
+                                                @if($manager->role == 2)
                                                 <td>Line Manager</td>
                                                 @endif
 
@@ -515,104 +523,7 @@
                 </div>
             </div>
 
-            {{-- <div class="row">
-                <div class="col-12">
-                    <div class="card">
 
-                        <!-- /.card-header -->
-                        <div class="card-body">
-
-                            <table id="usertable" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Name</th>
-                                        <th>User Name</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th>Line Name</th>
-                                        <th>Note</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                    $index = 1;
-                                    @endphp
-                                    @foreach($users as $user)
-                                    <tr>
-                                        <td>{{ $index++ }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->username }}</td>
-                                        <td>{{ $user->email }}</td>
-
-                                        @if($user->role == 1)
-                                        <td>Admin</td>
-                                        @elseif($user->role == 2)
-                                        <td>Operator</td>
-                                        @elseif($user->role == 3)
-                                        <td>Line Manager</td>
-                                        @elseif($user->role == 98)
-                                        <td>Owner</td>
-                                        @elseif($user->role == 97)
-                                        <td>Viewer</td>
-                                        @endif
-
-                                        @if($user->line_id == 0)
-                                        <td></td>
-                                        @elseif($user->line_id == 1)
-                                        <td>4S</td>
-                                        @elseif($user->line_id == 2)
-                                        <td>5A</td>
-                                        @elseif($user->line_id == 3)
-                                        <td>5</td>
-                                        @elseif($user->line_id == 4)
-                                        <td>5S</td>
-                                        @elseif($user->line_id == 5)
-                                        <td>8</td>
-                                        @elseif($user->line_id == 6)
-                                        <td>Mini</td>
-                                        @elseif($user->line_id == 7)
-                                        <td>1</td>
-                                        @elseif($user->line_id == 8)
-                                        <td>1S</td>
-                                        @elseif($user->line_id == 9)
-                                        <td>3</td>
-                                        @endif
-
-                                        <td>{{ $user->remark }}</td>
-
-                                        @if($user->active_status == 1)
-                                        <td><i class="fas fa-check-circle text-success"></i></td>
-                                        @else
-                                        <td><i class="fas fa-times-circle text-danger"></i></td>
-                                        @endif
-
-                                        <td>
-                                            <a type="button" class="btn btn-primary text-white"
-                                                data-uer_id="{{ $user->id }}" data-name="{{ $user->name }}"
-                                                data-username="{{ $user->username }}"
-                                                data-password="{{ $user->password }}" data-email="{{ $user->email }}"
-                                                data-role="{{ $user->role }}" data-line="{{ $user->line_id }}"
-                                                data-note="{{ $user->remark }}" data-status="{{ $user->active_status }}"
-                                                data-toggle="modal" data-target="#editModal1"><i
-                                                    class='fas fa-pencil-alt'></i></a>
-                                            <a href="{{ url("/user/delete/".$user->id) }}" type="button" class="btn
-                                                btn-danger text-white"
-                                                onclick="return confirm('Are you sure to delete?')"><i
-                                                    class="fas fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                </div>
-            </div> --}}
             <!--Add Modal -->
             <div class="modal fade bd-example-modal-lg" id="addModal1" tabindex="-1" aria-labelledby="addModal1Label"
                 aria-hidden="true">
@@ -642,20 +553,21 @@
                                         </div>
                                     </div>
                                     <div class="row g-3 my-2">
-                                        <div class="col-12 col-md-4 form-group">
-                                            <label>Email<span class="star">*</span></label>
-                                            <input type="text" class="form-control" name="email" placeholder="Email" />
-                                        </div>
+
                                         <div class="col-12 col-md-4 form-group">
                                             <label>Role<span class="star">*</span></label>​
                                             <select class="form-control" name="role" required>
-                                                <option value="0">Select role</option>
+                                                <option value="">Select role</option>
                                                 <option value="98">Owner</option>
-                                                <option value="1">Admin</option>
-                                                <option value="2">Operator</option>
-                                                <option value="3">Line Manager</option>
+                                                <option value="0">Admin</option>
+                                                <option value="1">Operator</option>
+                                                <option value="2">Line Manager</option>
                                                 <option value="97">Viewer</option>
                                             </select>
+                                        </div>
+                                        <div class="col-12 col-md-4 form-group">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" name="email" placeholder="Email" />
                                         </div>
                                         <div class="col-12 col-md-4 form-group select2">
                                             <label>Line Name</label>​
@@ -717,21 +629,22 @@
                                         </div>
                                     </div>
                                     <div class="row g-3 my-2">
-                                        <div class="col-12 col-md-4 form-group">
-                                            <label>Email<span class="star">*</span></label>
-                                            <input type="text" class="form-control" id="email" name="email"
-                                                placeholder="Email" />
-                                        </div>
+
                                         <div class="col-12 col-md-4 form-group">
                                             <label>Role<span class="star">*</span></label>​
                                             <select class="form-control" id="role" name="role" required>
-                                                <option value="0">Select role</option>
+                                                <option value="">Select role</option>
                                                 <option value="98">Owner</option>
-                                                <option value="1">Admin</option>
-                                                <option value="2">Operator</option>
-                                                <option value="3">Line Manager</option>
+                                                <option value="0">Admin</option>
+                                                <option value="1">Operator</option>
+                                                <option value="2">Line Manager</option>
                                                 <option value="97">Viewer</option>
                                             </select>
+                                        </div>
+                                        <div class="col-12 col-md-4 form-group">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" id="email" name="email"
+                                                placeholder="Email" />
                                         </div>
                                         <div class="col-12 col-md-4 form-group select2">
                                             <label>Line Name</label>​

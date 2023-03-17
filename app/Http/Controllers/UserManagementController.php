@@ -27,26 +27,31 @@ class UserManagementController extends Controller
     public function index()
     {
 
-        $users = User::all();
-        $lines = Line::all();
+        $users = User::orderBy('id', 'asc')->get();
+        $lines = Line::orderBy('l_id', 'asc')->get();
         $admins = DB::table('users')
-            ->where('role', '=', 1)
+            ->where('role', '=', 0)
+            ->orderBy('id', 'asc')
             ->get();
 
         $operators = DB::table('users')
-            ->where('role', '=', 2)
+            ->where('role', '=', 1)
+            ->orderBy('id', 'asc')
             ->get();
 
         $managers = DB::table('users')
-            ->where('role', '=', 3)
+            ->where('role', '=', 2)
+            ->orderBy('id', 'asc')
             ->get();
 
         $owners = DB::table('users')
             ->where('role', '=', 98)
+            ->orderBy('id', 'asc')
             ->get();
 
         $viewers = DB::table('users')
             ->where('role', '=', 97)
+            ->orderBy('id', 'asc')
             ->get();
 
         return view('user_management.index', ['users' => $users, 'lines' => $lines, 'admins' => $admins, 'operators' => $operators, 'managers' => $managers, 'owners' => $owners, 'viewers' => $viewers]);
@@ -57,7 +62,7 @@ class UserManagementController extends Controller
         $this->validate($request, [
             'name' => ['required'],
             'username' =>  ['required'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             // 'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password' => ['required'],
             'role' =>  ['required']
@@ -71,6 +76,7 @@ class UserManagementController extends Controller
                 $request->password
             ),
             'role' => $request->role,
+            'active_status' => 1,
             'line_id' => $request->line,
             'remark' => $request->note,
         ]);
@@ -86,7 +92,7 @@ class UserManagementController extends Controller
         $this->validate($request, [
             'name' => ['required'],
             'username' =>  ['required'],
-            'email' => ['required'],
+            // 'email' => ['required'],
             'role' =>  ['required']
         ]);
 

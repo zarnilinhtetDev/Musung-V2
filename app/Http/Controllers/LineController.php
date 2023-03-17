@@ -4,17 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Line;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class LineController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user(); // here the user should exist from the session
+            return $next($request);
+        });
     }
 
     public function index()
     {
-        $lines = Line::all();
+        $lines = Line::orderBy('l_pos', 'asc')->get();
         return view('line_management.add_new_line', ['lines' => $lines]);
     }
 
@@ -46,7 +53,7 @@ class LineController extends Controller
         if (isset($request->checkstatus)) {
             $status = $request->checkstatus;
         } else {
-            $status = 0;
+            $status = 1;
         }
 
         $line = Line::where('l_id', '=', $request->lid)->first();

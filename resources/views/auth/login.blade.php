@@ -6,7 +6,7 @@
 
     <div class="register-box">
         <div class="register-logo">
-            <a href="#"><b>Welcome</b></a>
+            <a href="#"><strong>Welcome</strong></a>
         </div>
         <div class="card register-card">
             <div class="card-body register-card-body">
@@ -18,9 +18,10 @@
                         <div class="col-12">
 
                             <div class="input-group mb-3">
-                                <input type="email" id="email" name="email"
-                                    class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}"
-                                    required autocomplete="email" placeholder="Email" autofocus>
+                                <input type="text" id="username" name="username"
+                                    class="form-control @error('username') is-invalid @enderror"
+                                    value="{{ old('username') }}" required autocomplete="username"
+                                    placeholder="Username" autofocus>
                                 <div class="input-group-append">
                                     <div class="input-group-text">
                                         <span class="fas fa-envelope"></span>
@@ -32,7 +33,7 @@
                                 class="form-control @error('email') is-invalid @enderror" name="email"
                                 value="{{ old('email') }}" required autocomplete="email" autofocus> --}}
 
-                            @error('email')
+                            @error('username')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -86,11 +87,34 @@
                                 {{ __('Login') }}
                             </button>
 
-                            @if (Route::has('password.request'))
-                            <a class="btn btn-link" href="{{ route('password.request') }}">
-                                {{ __('Forgot Your Password?') }}
-                            </a>
-                            @endif
+
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn forgot-btn" data-toggle="modal"
+                                data-target="#forgetPassword">
+                                Forgot Your Password?
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="forgetPassword" tabindex="-1"
+                                aria-labelledby="forgetPasswordLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="forgetPasswordLabel">Forgot Your Password?</h5>
+                                            {{-- <button type="button" class="btn" data-dismiss="modal"
+                                                aria-hidden="true" style="font-size: 20px;">x</button> --}}
+                                        </div>
+                                        <div class="modal-body">
+                                            <span class="text-danger">Please contact your administrator to reset your
+                                                password.</span>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>

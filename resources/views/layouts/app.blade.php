@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin | Dashboard</title>
+    <title>Line Management Software</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('dist/img/companylogo.png')  }}">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"

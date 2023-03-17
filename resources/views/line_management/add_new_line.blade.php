@@ -62,7 +62,7 @@
                                     <td>{{ $index++ }}</td>
                                     <td>{{ $line->l_name }}</td>
                                     <td>{{ $line->l_pos }}</td>
-                                    @if($line->a_status == 1)
+                                    @if($line->a_status == 0)
                                     <td><i class="fas fa-check-circle text-success"></i></td>
                                     @else
                                     <td><i class="fas fa-times-circle text-danger"></i></td>
@@ -163,7 +163,7 @@
                                 <div class="row g-3 my-2">
                                     <div class="col-12 col-md-4 form-group">
                                         <input class="mr-2" type="checkbox" id="checkstatus" name="checkstatus"
-                                            value="1">
+                                            value="0">
                                         <label>Status</label>
                                     </div>
 
@@ -204,7 +204,7 @@
         var position_name = button.data('position_name');
         var status = button.data('status');
 
-        if(status == 1){
+        if(status == 0){
         $("#checkstatus").attr('checked', true);
         }else{
         $("#checkstatus").attr('checked', false);

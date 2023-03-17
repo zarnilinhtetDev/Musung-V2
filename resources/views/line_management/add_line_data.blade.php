@@ -59,21 +59,22 @@
                                 </button>
                             </div>
                             <!--Add Modal -->
-                            <div class="modal fade bd-example-modal-lg" id="LineModalActive<?php echo $line->l_id;?>"
-                                tabindex="-1" aria-labelledby="LineModalActiveLabel" aria-hidden="true">
+                            <div class="modal fade" id="LineModalActive<?php echo $line->l_id;?>" tabindex="-1"
+                                aria-labelledby="LineModalActiveLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-body">
-                                            <form action="{{ route('line.add') }}" method="POST">
+                                            <form id="line_assign_post" method="POST">
                                                 @csrf
                                                 <div class="my-4">
                                                     <h1 class="fw-bold heading-text mb-3">Add Line Target</h1>
 
                                                     <hr>
-
+                                                    <input type="hidden" id="l_id" name="l_id"
+                                                        value="<?php echo $line->l_id;?>">
                                                     <div class="row g-3 my-2">
                                                         <div class="col-12 col-md-4 mt-0">
-                                                            <label>Line Name</label>​
+                                                            <label>Line Name <span class="star">*</span></label>​
                                                             <select class="form-control" name="l_manager" required>
                                                                 <option value="0">Select Line Name</option>
                                                                 @foreach($lines as $eline)
@@ -96,12 +97,13 @@
                                                     </div>
                                                     <div class="row g-3 my-2">
                                                         <div class="col-12 col-md-4 mt-0">
-                                                            <label>Starting Time</label>​<br />
+                                                            <label>Starting Time<span
+                                                                    class="star">*</span></label>​<br />
                                                             <input type="time" class="form-control" id="start_time"
                                                                 name="start_time" step="300" required>
                                                         </div>
                                                         <div class="col-12 col-md-4 mt-0">
-                                                            <label>Lunch Time</label>​<br />
+                                                            <label>Lunch Time<span class="star">*</span></label>​<br />
                                                             <div class="row">
                                                                 <div class="col-6">
                                                                     <input type="time" class="form-control"
@@ -116,19 +118,75 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-12 col-md-4 mt-0">
-                                                            <label>Ending Time</label>​<br />
+                                                            <label>Ending Time<span class="star">*</span></label>​<br />
                                                             <input type="time" class="form-control" id="end_time"
                                                                 name="end_time" step="300" required>
                                                         </div>
                                                     </div>
                                                     <div class="row g-3 my-2">
-                                                        <div class="col-12 col-md-4 mt-0">
-                                                            <label>Work Progress by (minute)</label>​
+                                                        <div class="col-12 col-md-4 mb-3">
+                                                            <label>Work Progress by (minute)<span
+                                                                    class="star">*</span></label>​
                                                             <input type="number" class="form-control" name="progress"
                                                                 id="progress" placeholder="30" required />
                                                         </div>
                                                     </div>
+                                                    <hr>
+                                                    <div id="dynamic_field_<?php echo $line->l_id; ?>">
+                                                        <div class="row g-3 my-2">
+                                                            <div class="col-12 col-md-3 mt-0">
+                                                                <label>Buyer<span class="star">*</span></label>
+                                                                <select class="livesearch form-control category_select"
+                                                                    name="category[]" id="category_select">
+                                                                    <option value=''>-- Select buyer --
+                                                                    </option>
+                                                                    @foreach($buyers as $buyer)
+                                                                    <option value="{{ $buyer->buyer_id }}">{{
+                                                                        $buyer->buyer_name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                {{-- <select
+                                                                    class="livesearch form-control category_select_<?php echo $line->l_id; ?>"
+                                                                    name="category[]"
+                                                                    id="category_select_<?php echo $line->l_id; ?>">
+                                                                    <option value=''>-- Select buyer --</option>
+                                                                </select> --}}
+                                                            </div>
+                                                            <div class="col-12 col-md-2 mt-0">
+                                                                <label>Style No<span class="star">*</span></label>
+                                                                <input type="text" class="form-control" id="style_name"
+                                                                    name="style_name[]" placeholder="#0000" required />
+                                                            </div>
+                                                            <div class="col-12 col-md-3 mt-0">
+                                                                <label>Item Name<span class="star">*</span></label>
+                                                                <div>
+                                                                    <select class="livesearch2 form-control p_name"
+                                                                        name="p_name[]" id="p_name">
+                                                                        <option value=''>-- Select item name --
+                                                                        </option>
+                                                                        @foreach($items as $item)
+                                                                        <option value="{{ $item->item_id }}">{{
+                                                                            $item->item_name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-2 mt-0">
+                                                                <label>Target<span class="star">*</span></label>
+                                                                <input type="number" class="form-control"
+                                                                    id="setting_target" placeholder="Target" min="1"
+                                                                    required />
+                                                            </div>
+                                                            <div class="col-12 col-md-2 mt-2">
+                                                                <button type="button" name="add" id="add_product_detail"
+                                                                    class="btn btn-success mt-4" onclick="addRow()"><i
+                                                                        class="fas fa-plus-square fa-lg"></i></button>
+                                                            </div>
+                                                        </div>
+                                                        <div id="content">
 
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-12 col-md-6 m-auto text-center">
                                                     <input class="icon-btn-one btn my-2" type="submit" value="Create"
@@ -136,6 +194,7 @@
                                                     <button type="button" class="btn btn-secondary"
                                                         data-dismiss="modal">Close</button>
                                                 </div>
+
                                             </form>
                                         </div>
                                     </div>
@@ -312,40 +371,6 @@
                                         </td>
 
                                     </tr>
-                                    @foreach($line_assign_detail as $l_assign)
-                                    <tr>
-                                        <td>{{ $index++ }}</td>
-                                        <td>{{ $l_assign->l_name }}</td>
-                                        <td>{{ $l_assign->name }}</td>
-                                        <td>{{ $l_assign->main_target }}</td>
-                                        <td id="l_work_hr_{{ $l_assign->l_id }}">{{ $l_assign->t_work_hr }}</td>
-                                        <td>{{ $l_assign->s_time }}</td>
-                                        <td>{{ $l_assign->lunch_s_time }} - {{ $l_assign->lunch_e_time }}</td>
-                                        <td>{{ $l_assign->e_time }}</td>
-                                        <td>
-                                            <a type="button" class="btn btn-primary text-white"><i
-                                                    class='fas fa-pencil-alt'></i></a>
-                                            <a class='btn btn-danger text-white'
-                                                href='{{ url("/line_data/delete/".$l_assign->id) }}'
-                                                onclick="return confirm('Are you sure to delete?')">Delete</a>
-                                        </td>
-                                    </tr>
-                                    <script>
-                                        var l_work_hr = $("#l_work_hr_{{ $l_assign->l_id }}");
-                                                var l_work_hr_val = "<?php echo $l_assign->t_work_hr; ?>";
-
-                                                l_work_hr_val_split = l_work_hr_val.split(':');
-
-
-                                                if(l_work_hr_val_split[1] == 0){
-                                                    l_work_hr.text(l_work_hr_val_split[0]+'  hr');
-                                                }
-                                                if(l_work_hr_val_split[1] != 0){
-                                                    l_work_hr.text(l_work_hr_val_split[0]+'  hr '+l_work_hr_val_split[1]+'  min');
-                                                }
-                                    </script>
-                                    @endforeach
-
                                 </tbody>
                             </table>
                         </div>
@@ -414,7 +439,7 @@
 <script src="{{ asset('plugins/jquery/3.0.0-alpha1/jquery.min.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-            var table = $('#linetable').DataTable({
+         var table = $('#linetable').DataTable({
         "paging": true,
         "lengthChange": false,
         "searching": false,
@@ -438,27 +463,114 @@
         progress.val("60");
         });
 
-        $('#editModal1').on('show.bs.modal', function(event) {
+        // $('.category_select_<?php echo $line->l_id; ?>').select2({
+        //         dropdownParent: $('#LineModalActive<?php echo $line->l_id;?>'),
+        //         tags:true,
+        //         ajax: {
+        //             url: "/buyer_search",
+        //             type: "GET",
+        //             dataType: 'json',
+        //             delay: 0,
+        //             data: function (params) {
+        //             return {
+        //             search: params.term // search term
+        //             };
+        //         },
+        //         processResults: function (response) {
+        //             return {
+        //             results: response
+        //             };
+        //         },
+        //         cache: true
+        //         }
+        // });
 
-        var button = $(event.relatedTarget);
-        var lid = button.data('lid');
-        var line_name = button.data('line_name');
-        var position_name = button.data('position_name');
-        var status = button.data('status');
 
-        if(status == 1){
-        $("#checkstatus").attr('checked', true);
-        }else{
-        $("#checkstatus").attr('checked', false);
-        }
+       $("#line_assign_post").submit(function(e) {
+            e.preventDefault();
 
-        var modal = $(this);
+            // Get NON-INPUT table cell data
+            var box_2 = {};
+            var boxes_2 = [];
+            $('#dynamic_field_<?php echo $line->l_id; ?>').each(function() {
+            var category_select = $('#category_select_<?php echo $line->l_id; ?>', this).val();
+            var style_no = $('#style_name', this).val();
+            var p_name = $('#p_name_<?php echo $line->l_id; ?>', this).val();
+            var category_target = $('#setting_target', this).val();
+            var l_id = <?php echo $line->l_id; ?>;
+            box_2 = {
+                category_select: category_select,
+                style_no : style_no,
+                p_name: p_name,
+                category_target: category_target,
+                l_id : l_id
+                }
+            boxes_2.push(box_2);
+            });
 
-        modal.find('.modal-body #lid').val(lid);
-        modal.find('.modal-body #line_name').val(line_name);
-        modal.find('.modal-body #position_name').val(position_name);
+            var formData = $(this).serializeArray();
 
+             // Encode with JSON
+            var subArray = JSON.stringify(boxes_2);
+
+            // Add to formData array
+            formData.push({name: 'sub', value: subArray});
+            console.log(formData);
+            // Submit with AJAX
+            // $.ajax({
+            // type: "POST",
+            // url: "/line_data/add",
+            // data: formData,
+            // success: function(data) {
+            //     // console.log(data);
+            //     location.reload();
+            //     }
+            // });
         });
 });
+
+function addRow() {
+        const div = document.createElement('div');
+
+        div.className = 'row';
+
+        div.innerHTML = `<div class="col-12 col-md-3 mt-0">
+            <label>Buyer<span class="star">*</span></label>
+            <select class="livesearch form-control category_select" name="category[]" id="category_select">
+                <option value=''>-- Select buyer --
+                </option>
+            </select>
+        </div>
+        <div class="col-12 col-md-2 mt-0">
+            <label>Style No<span class="star">*</span></label>
+            <input type="text" class="form-control" id="style_name" name="style_name[]" placeholder="#0000" required />
+        </div>
+        <div class="col-12 col-md-3 mt-0">
+            <label>Item Name<span class="star">*</span></label>
+            <div>
+                <select class="livesearch2 form-control p_name" name="p_name[]" id="p_name">
+                    <option value=''>-- Select item name --
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-12 col-md-2 mt-0">
+            <label>Target<span class="star">*</span></label>
+            <input type="number" class="form-control" id="setting_target" placeholder="Target" min="1" required />
+        </div>
+        <div class="col-12 col-md-2 mt-2" onclick="removeRow(this)">
+            <button type="button" name="add" class="btn btn-danger mt-4">X</button>
+        </div>
+        `;
+
+        document.getElementById('content').appendChild(div);
+}
+
+function removeRow(div) {
+        document.getElementById('content').removeChild(div.parentNode);
+}
+</script>
+<script>
+
 </script>
 @endsection

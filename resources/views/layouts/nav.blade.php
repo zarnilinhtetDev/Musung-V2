@@ -1,8 +1,10 @@
 @php
 $roleid = Auth::user()->role;
+// $roleid = 0;
+
 @endphp
 <!-- Navbar -->
-@if ($roleid != 3)
+@if ($roleid != 2)
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -44,9 +46,9 @@ $roleid = Auth::user()->role;
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link" style="border-bottom: 1px solid #dee2e6;">
-        <img src="dist/img/AdminLTELogo.png" alt="Company Logo" class="brand-image img-circle elevation-3"
+        <img src="{{ asset('dist/img/companylogo.png')  }}" alt="Company Logo" class="brand-image elevation-3"
             style="opacity: .8">
-        <span class="brand-text">Company Name</span>
+        <span class="brand-text">Cube Design&Sni</span>
 
     </a>
 
@@ -56,12 +58,13 @@ $roleid = Auth::user()->role;
         <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="border-bottom: 1px solid #dee2e6;">
             <div class="info ml-3">
                 <span class="d-block" style="color:white">{{ Auth::user()->name }} (
-                    @if(Auth::user()->role == 1)
+                    @if(Auth::user()->role == 0)
                     Admin
                     @else
                     Operator
                     @endif
                     )</span>
+                {{-- <span class="d-block" style="color:white">Admin</span> --}}
             </div>
         </div>
 
@@ -70,8 +73,7 @@ $roleid = Auth::user()->role;
 
 
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
+
                 <li class="nav-item">
                     <a href="{{ route('dashboard') }}" class="nav-link {{ (request()->is('dashboard')) ? 'active' : ''
                                     }}">
@@ -104,7 +106,7 @@ $roleid = Auth::user()->role;
                     </ul>
                 </li>
 
-                @if ($roleid == 1)
+                @if ($roleid == 0)
                 <li class="nav-item">
                     <a href="{{ route('line_entry') }}" class="nav-link {{ (request()->is('line_entry')) ? 'active' : ''
                                     }}">
@@ -145,7 +147,7 @@ $roleid = Auth::user()->role;
                             <a href="{{ route('line_data') }}" class="nav-link {{ (request()->is('line_data')) ? 'active' : ''
                                     }}">
                                 <i class="far fa-circle nav-icon mr-3"></i>
-                                <p>Add Line Data</p>
+                                <p>Add Line Target</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -190,7 +192,7 @@ $roleid = Auth::user()->role;
 
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="{{ route('report') }}" class="nav-link">
                         <i class="nav-icon fas fa-edit mr-3"></i>
                         <p>
                             Report

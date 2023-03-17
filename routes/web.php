@@ -5,13 +5,15 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BuyerController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LineController;
 use App\Http\Controllers\LineDataController;
 use App\Http\Controllers\LineEntryController;
 use App\Http\Controllers\LineHistoryController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\ImportExportController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +31,6 @@ Route::view('/', 'auth.login')->name('login_1');
 
 Auth::routes();
 
-Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
@@ -44,7 +45,6 @@ Route::get('/user', [UserManagementController::class, 'index'])->name('user')->m
 Route::post('/user/add', [UserManagementController::class, 'store'])->name('user.add')->middleware('auth');
 Route::post('/user/update', [UserManagementController::class, 'update'])->name('user.update')->middleware('auth');
 Route::get('/user/delete/{id}', [UserManagementController::class, 'delete'])->name('user.delete')->middleware('auth');
-
 
 Route::get('/line_history', [LineHistoryController::class, 'index'])->name('line_history')->middleware('auth');
 
@@ -61,8 +61,19 @@ Route::get('/buyer/delete/{id}', [BuyerController::class, 'delete'])->name('buye
 
 
 Route::get('/line_data', [LineDataController::class, 'index'])->name('line_data')->middleware('auth');
+Route::post('/line_data/add', [LineDataController::class, 'store'])->name('line_data.add')->middleware('auth');
 Route::get('/line_data/delete/{id}', [LineDataController::class, 'delete'])->name('line_data.delete')->middleware('auth');
 
 
 Route::get('/line_entry', [LineEntryController::class, 'index'])->name('line_entry')->middleware('auth');
 Route::get('/line_entry/{id}', [LineEntryController::class, 'line_entry'])->name('line_entry.id')->middleware('auth');
+
+
+Route::get('/report', [ReportController::class, 'index'])->name('report')->middleware('auth');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+//// Search in LineSetting ////
+Route::get('buyer_search', [LineDataController::class, 'buyerSearch'])->middleware('auth');
+Route::get('item_search', [LineDataController::class, 'itemSearch'])->middleware('auth');

@@ -1,10 +1,8 @@
 @extends('layouts.app')
-{{--
-@extends('home') --}}
 
 @section('content')
 
-@if(Auth::user()->role != 3)
+@if(Auth::user()->role != 2)
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -41,7 +39,6 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -82,13 +79,6 @@
                                         <th scope="col" style="vertical-align: middle;">5:00 PM</th>
                                         <th scope="col" style="vertical-align: middle;">6:00 PM</th>
                                         <th scope="col" style="vertical-align: middle;">7:00 PM</th>
-                                        {{-- @foreach(array_reverse($time) as $t)
-                                        <th scope="col" id="th_{{ $t->time_name }}" style="vertical-align: middle;">
-                                            @php
-                                            echo date('g:i A',strtotime($t->time_name));
-                                            @endphp
-                                        </th>
-                                        @endforeach --}}
                                         <th scope="col" style="vertical-align: middle;">Total</th>
                                         <th scope="col" style="vertical-align: middle;">Rank</th>
                                         <th scope="col" style="vertical-align: middle;">%</th>
@@ -3065,7 +3055,7 @@
 {{-- @endadmin --}}
 @endsection
 
-@if(Auth::user()->role == 3)
+@if(Auth::user()->role == 2)
 <script type="text/javascript">
     window.location = "{{ url('/line_entry/1') }}";
 </script>

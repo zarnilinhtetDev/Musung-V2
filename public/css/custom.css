@@ -1,19 +1,17 @@
-.custom_body tr {
-    line-height: 9px;
-    font-weight: bold;
+body {
     font-size: 18px;
 }
 
-/* .custom_body td {
-    vertical-align: middle;
-    text-align: center;
-} */
+.custom_body tr {
+    line-height: 9px;
+    font-weight: bold;
+}
+
 
 .line-row {
     background-color: #007bff;
     color: white;
     font-weight: bold;
-    font-size: 18px;
 }
 
 .login-card {
@@ -72,13 +70,7 @@
     padding: 0.1rem !important;
 }
 
-/* ul .horizontal-slide {
-    overflow: unset !important;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    white-space: nowrap;
-} */
+
 .text-size {
     font-size: 30px;
 }
@@ -92,17 +84,187 @@
 }
 
 .logout-text {
-    font-size: 18px;
+    /* font-size: 18px; */
     font-weight: bold;
 }
 
 .home-text {
-    font-size: 18px;
+    /* font-size: 18px; */
     font-weight: bold;
 }
 
 
-@media only screen and (max-width: 500px) {
+
+/* ZN */
+
+div .dt-buttons {
+    position: relative;
+    float: right;
+}
+
+.clock_oneline {
+    width: 560px;
+    height: 90px;
+    background-color: #E9E9E9;
+    font-size: 60px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 3px;
+    letter-spacing: 5px;
+    margin-left: 3px;
+    float: right;
+}
+
+
+
+
+.line_oneline {
+    position: relative;
+    color: #0070C0;
+    font-size: 110px;
+    font-weight: 700;
+    margin-left: 780px;
+    margin-top: -120px;
+}
+
+.rank_oneline {
+    position: relative;
+    font-size: 150px;
+    font-weight: 700;
+    margin-left: 730px;
+    margin-top: -60px;
+}
+
+.line {
+    width: 560px;
+    height: 90px;
+    background-color: #E9E9E9;
+    font-size: 60px;
+    font-weight: 700;
+    text-align: center;
+    border-radius: 3px;
+    letter-spacing: 5px;
+    margin-left: 3px;
+    float: left;
+    /* color: #0070C0;
+    font-size: 110px;
+    font-weight: 700;
+    margin-top: -50px; */
+
+}
+
+.rank {
+    font-size: 160px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.main_table {
+    width: 260px;
+    height: 100px;
+
+}
+
+.title_pd {
+    font-size: 50px;
+    background-color: #EA6153;
+    color: white;
+    text-align: center;
+}
+
+.tp_title {
+    background-color: #E9E9E9;
+    text-align: center;
+    font-size: 40px;
+}
+
+.percent {
+    text-align: center;
+    background-color: #2980B9;
+    color: white;
+    font-size: 40px;
+}
+
+.rank_table {
+    width: 750px;
+    position: relative;
+}
+
+.right_percent {
+    margin-left: 20px;
+    display: flex;
+    position: relative;
+    bottom: 2px;
+    right: 27px;
+    padding: 0 0 0 0;
+    width: 110%;
+    height: 160px;
+    background: #008000;
+    text-align: center;
+    justify-content: center;
+    font-size: 110px;
+}
+
+.bottom_rank {
+    margin-left: 20px;
+    display: flex;
+    position: relative;
+    bottom: 2px;
+    right: 27px;
+    padding: 0 0 0 0;
+    width: 110%;
+    height: 80px;
+    border: solid 1.7px;
+    margin-top: 20px;
+}
+
+.r_rank {
+    color: black;
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 14px;
+}
+
+.r_line {
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 14px;
+    color: #0070C0
+}
+
+.r_diff {
+    color: #008000;
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 14px;
+}
+
+.rs_percentage {
+    background-color: #008000;
+    color: #ffff;
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 14px;
+    text-align: center;
+}
+
+
+th, td {
+    border-color: #cac4c4 !important;
+
+
+}
+
+.register-page {
+    background-image: url("../images/bg3.jpg");
+    /* height: 937px; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+@media only screen and (max-width: 850px) {
     .d_time {
         margin-top: 22px;
     }
@@ -118,5 +280,100 @@
 
     .dropdown-item {
         padding: 0;
+    }
+
+    .second {
+        margin-top: 12px;
+    }
+
+    .bottom_rank {
+        bottom: 2px;
+        right: 20px;
+        padding: 0 0 0 0;
+        width: 100%;
+        height: 160px;
+        border: solid 1.7px;
+        margin-top: 5px;
+    }
+
+    .right_percent {
+        bottom: 2px;
+        right: 20px;
+        padding: 0 0 0 0;
+        width: 100%;
+        height: 140px;
+        background: #008000;
+        vertical-align: center;
+        font-size: 70px;
+    }
+
+    .clock_oneline {
+        width: 260px;
+        height: 50px;
+        background-color: #E9E9E9;
+        font-size: 30px;
+        font-weight: 700;
+        text-align: center;
+        border-radius: 3px;
+        letter-spacing: 1px;
+        float: none;
+    }
+
+
+
+    .line {
+        width: 260px;
+        height: 50px;
+        background-color: #E9E9E9;
+        font-size: 30px;
+        font-weight: 700;
+        border-radius: 3px;
+        letter-spacing: 1px;
+        text-align: center;
+
+    }
+
+    .rank {
+
+        font-size: 70px;
+        font-weight: 700;
+        text-align: center;
+
+    }
+
+    .r_line {
+        font-weight: bold;
+        font-size: 30px;
+        margin-top: 10px;
+        color: #0070C0;
+    }
+
+    .r_rank {
+        color: black;
+        font-weight: bold;
+        font-size: 30px;
+        margin-top: 10px;
+    }
+
+    .r_diff {
+        color: #008000;
+        font-weight: bold;
+        font-size: 30px;
+        margin-top: 10px;
+    }
+
+    .rs_percentage {
+        background-color: #008000;
+        color: #ffff;
+        font-weight: bold;
+        font-size: 30px;
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .main_table {
+        width: 20px;
+        height: 100px;
+
     }
 }

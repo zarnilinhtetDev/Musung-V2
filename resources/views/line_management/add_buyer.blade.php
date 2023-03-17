@@ -68,7 +68,7 @@
                                     <td>{{ $index++ }}</td>
                                     <td>{{ $buyer->buyer_name }}</td>
                                     <td>{{ $buyer->remark }}</td>
-                                    @if($buyer->active_status == 1)
+                                    @if($buyer->active_status == 0)
                                     <td><i class="fas fa-check-circle text-success"></i></td>
                                     @else
                                     <td><i class="fas fa-times-circle text-danger"></i></td>
@@ -76,12 +76,12 @@
 
                                     <td>
                                         <a type="button" class="btn btn-primary text-white"
-                                            data-buyer_name="{{ $buyer->buyer_name }}" data-id="{{ $buyer->id }}"
+                                            data-buyer_name="{{ $buyer->buyer_name }}" data-id="{{ $buyer->buyer_id }}"
                                             data-remark="{{ $buyer->remark }}"
                                             data-active_status="{{ $buyer->active_status }}" data-toggle="modal"
                                             data-target="#editModal1"><i class='fas fa-pencil-alt'></i></a>
 
-                                        <a href="{{ url("/buyer/delete/".$buyer->id) }}" type="button" class="btn
+                                        <a href="{{ url("/buyer/delete/".$buyer->buyer_id) }}" type="button" class="btn
                                             btn-danger text-white"
                                             onclick="return confirm('Are you sure to delete?')"><i
                                                 class="fas fa-trash"></i></a>
@@ -168,7 +168,7 @@
                                 <div class="row g-3 my-2">
                                     <div class="col-12 col-md-4 form-group">
                                         <input class="mr-2" type="checkbox" id="checkstatus" name="checkstatus"
-                                            value="1">
+                                            value="0">
                                         <label>Status</label>
                                     </div>
 
@@ -209,7 +209,7 @@
         var remark = button.data('remark');
         var status = button.data('active_status');
 
-        if(status == 1){
+        if(status == 0){
         $("#checkstatus").attr('checked', true);
         }else{
         $("#checkstatus").attr('checked', false);

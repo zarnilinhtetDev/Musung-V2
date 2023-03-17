@@ -44,32 +44,32 @@
                                 </tr>
                                 <tr>
                                     <td>2</td>
-                                    <td><a href="#">1S</a></td>
+                                    <td><a href="">1S</a></td>
                                     <td>400</td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td><a href="#">3</a></td>
+                                    <td><a href="">3</a></td>
                                     <td>350</td>
                                 </tr>
                                 <tr>
                                     <td>4</td>
-                                    <td><a href="#">4</a></td>
+                                    <td><a href="">4</a></td>
                                     <td>450</td>
                                 </tr>
                                 <tr>
                                     <td>5</td>
-                                    <td><a href="#">4S</a></td>
+                                    <td><a href="">4S</a></td>
                                     <td>300</td>
                                 </tr>
                                 <tr>
                                     <td>6</td>
-                                    <td><a href="#">5A</a></td>
+                                    <td><a href="">5A</a></td>
                                     <td>500</td>
                                 </tr>
                                 <tr>
                                     <td>7</td>
-                                    <td><a href="#">5S</a></td>
+                                    <td><a href="">5S</a></td>
                                     <td>500</td>
                                 </tr>
 
@@ -84,20 +84,4 @@
 
     </div>
 </section>
-
-<script src="{{ asset('plugins/jquery/3.0.0-alpha1/jquery.min.js') }}"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-        //     var table = $('#itemtable').DataTable({
-        // "paging": true,
-        // "lengthChange": false,
-        // "searching": true,
-        // "ordering": false,
-        // "info": true,
-        // "autoWidth": false,
-        // "responsive": true,
-        // });
-
-});
-</script>
 @endsection

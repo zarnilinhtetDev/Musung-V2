@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -12,10 +14,10 @@ class DashboardController extends Controller
     {
         $this->middleware('auth');
 
-        // $this->middleware(function ($request, $next) {
-        //     $this->user = Auth::user(); // here the user should exist from the session
-        //     return $next($request);
-        // });
+        $this->middleware(function ($request, $next) {
+            $this->user = Auth::user(); // here the user should exist from the session
+            return $next($request);
+        });
     }
     /**
      * Display a listing of the resource.
@@ -27,7 +29,7 @@ class DashboardController extends Controller
 
     public function line()
     {
-        return view('main.one');
+        return view('main.one_line');
     }
 
     /**
