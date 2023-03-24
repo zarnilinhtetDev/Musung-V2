@@ -88,7 +88,7 @@
 
                                                         <div class="col-12 col-md-4 mt-0">
                                                             <br />
-                                                            <input type="button" class="btn btn-secondary"
+                                                            <input type="button" class="btn btn-secondary fill-btn"
                                                                 value="Autofill Time" id="time_type_1">
                                                         </div>
                                                         <input type="hidden" class="form-control" name="work_hour"
@@ -136,21 +136,19 @@
                                                         <div class="row g-3 my-2">
                                                             <div class="col-12 col-md-3 mt-0">
                                                                 <label>Buyer<span class="star">*</span></label>
-                                                                <select class="livesearch form-control category_select"
-                                                                    name="category[]" id="category_select">
+
+                                                                <select class="js-data-example-ajax"></select>
+
+                                                                {{-- <select class="form-control select2"
+                                                                    name="category_select[]" id="category_select">
                                                                     <option value=''>-- Select buyer --
                                                                     </option>
                                                                     @foreach($buyers as $buyer)
                                                                     <option value="{{ $buyer->buyer_id }}">{{
                                                                         $buyer->buyer_name }}</option>
                                                                     @endforeach
-                                                                </select>
-                                                                {{-- <select
-                                                                    class="livesearch form-control category_select_<?php echo $line->l_id; ?>"
-                                                                    name="category[]"
-                                                                    id="category_select_<?php echo $line->l_id; ?>">
-                                                                    <option value=''>-- Select buyer --</option>
                                                                 </select> --}}
+
                                                             </div>
                                                             <div class="col-12 col-md-2 mt-0">
                                                                 <label>Style No<span class="star">*</span></label>
@@ -435,10 +433,12 @@
     </div>
     </div>
 </section>
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script> --}}
+
 <script src="{{ asset('plugins/jquery/3.0.0-alpha1/jquery.min.js') }}"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
+
          var table = $('#linetable').DataTable({
         "paging": true,
         "lengthChange": false,
@@ -463,8 +463,9 @@
         progress.val("60");
         });
 
-        // $('.category_select_<?php echo $line->l_id; ?>').select2({
-        //         dropdownParent: $('#LineModalActive<?php echo $line->l_id;?>'),
+
+        // $('.category_select_1').select2({
+        //         dropdownParent: $('#dynamic_field_1'),
         //         tags:true,
         //         ajax: {
         //             url: "/buyer_search",
@@ -486,48 +487,49 @@
         // });
 
 
-       $("#line_assign_post").submit(function(e) {
-            e.preventDefault();
+    //    $("#line_assign_post").submit(function(e) {
+    //         e.preventDefault();
 
-            // Get NON-INPUT table cell data
-            var box_2 = {};
-            var boxes_2 = [];
-            $('#dynamic_field_<?php echo $line->l_id; ?>').each(function() {
-            var category_select = $('#category_select_<?php echo $line->l_id; ?>', this).val();
-            var style_no = $('#style_name', this).val();
-            var p_name = $('#p_name_<?php echo $line->l_id; ?>', this).val();
-            var category_target = $('#setting_target', this).val();
-            var l_id = <?php echo $line->l_id; ?>;
-            box_2 = {
-                category_select: category_select,
-                style_no : style_no,
-                p_name: p_name,
-                category_target: category_target,
-                l_id : l_id
-                }
-            boxes_2.push(box_2);
-            });
+    //         // Get NON-INPUT table cell data
+    //         var box_2 = {};
+    //         var boxes_2 = [];
+    //         $('#dynamic_field_<?php echo $line->l_id; ?>').each(function() {
+    //         var category_select = $('#category_select_<?php echo $line->l_id; ?>', this).val();
+    //         var style_no = $('#style_name', this).val();
+    //         var p_name = $('#p_name_<?php echo $line->l_id; ?>', this).val();
+    //         var category_target = $('#setting_target', this).val();
+    //         var l_id = <?php echo $line->l_id; ?>;
+    //         box_2 = {
+    //             category_select: category_select,
+    //             style_no : style_no,
+    //             p_name: p_name,
+    //             category_target: category_target,
+    //             l_id : l_id
+    //             }
+    //         boxes_2.push(box_2);
+    //         });
 
-            var formData = $(this).serializeArray();
+    //         var formData = $(this).serializeArray();
 
-             // Encode with JSON
-            var subArray = JSON.stringify(boxes_2);
+    //          // Encode with JSON
+    //         var subArray = JSON.stringify(boxes_2);
 
-            // Add to formData array
-            formData.push({name: 'sub', value: subArray});
-            console.log(formData);
-            // Submit with AJAX
-            // $.ajax({
-            // type: "POST",
-            // url: "/line_data/add",
-            // data: formData,
-            // success: function(data) {
-            //     // console.log(data);
-            //     location.reload();
-            //     }
-            // });
-        });
+    //         // Add to formData array
+    //         formData.push({name: 'sub', value: subArray});
+    //         console.log(formData);
+    //         // Submit with AJAX
+    //         // $.ajax({
+    //         // type: "POST",
+    //         // url: "/line_data/add",
+    //         // data: formData,
+    //         // success: function(data) {
+    //         //     // console.log(data);
+    //         //     location.reload();
+    //         //     }
+    //         // });
+    //     });
 });
+
 
 function addRow() {
         const div = document.createElement('div');
@@ -559,7 +561,8 @@ function addRow() {
             <input type="number" class="form-control" id="setting_target" placeholder="Target" min="1" required />
         </div>
         <div class="col-12 col-md-2 mt-2" onclick="removeRow(this)">
-            <button type="button" name="add" class="btn btn-danger mt-4">X</button>
+            <button type="button" name="add" class="btn btn-danger mt-4"><i
+                    class="fas fa-minus-square fa-lg"></i></button>
         </div>
         `;
 
@@ -569,8 +572,5 @@ function addRow() {
 function removeRow(div) {
         document.getElementById('content').removeChild(div.parentNode);
 }
-</script>
-<script>
-
 </script>
 @endsection

@@ -67,6 +67,7 @@ Route::get('/line_data/delete/{id}', [LineDataController::class, 'delete'])->nam
 
 Route::get('/line_entry', [LineEntryController::class, 'index'])->name('line_entry')->middleware('auth');
 Route::get('/line_entry/{id}', [LineEntryController::class, 'line_entry'])->name('line_entry.id')->middleware('auth');
+Route::post('/line_target_entry', [LineEntryController::class, 'line_target_entry'])->name('line_target_entry')->middleware('auth');
 
 
 Route::get('/report', [ReportController::class, 'index'])->name('report')->middleware('auth');

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buyer;
 use App\Models\Item;
 use App\Models\Line;
-use App\Models\LineData;
+use App\Models\LineAssign;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +34,7 @@ class LineDataController extends Controller
             ->orderBy('l_pos', 'asc')
             ->get();
 
-        $line_data = LineData::all();
+        $line_data = LineAssign::all();
 
         $buyers = Buyer::all();
 
@@ -78,66 +78,66 @@ class LineDataController extends Controller
         $buyer_name_list_arr = [];
         $style_name_list_arr = [];
 
-        for ($x = 0; $x < count($sub); $x++) {
-            $category_select = $sub[$x]['category_select'];
-            $p_name_post = $sub[$x]['p_name'];
+        // for ($x = 0; $x < count($sub); $x++) {
+        //     $category_select = $sub[$x]['category_select'];
+        //     $p_name_post = $sub[$x]['p_name'];
 
-            if (is_numeric($category_select)) {
-                $category[] = $category_select;
-            } elseif (!is_numeric($category_select)) {
-                $category_select_format = str_replace(' ', '', strtolower($category_select));;
+        //     if (is_numeric($category_select)) {
+        //         $category[] = $category_select;
+        //     } elseif (!is_numeric($category_select)) {
+        //         $category_select_format = str_replace(' ', '', strtolower($category_select));;
 
-                $buyer_name_check = BuyerList::select('buyer_id', 'buyer_name')->get();
+        //         $buyer_name_check = BuyerList::select('buyer_id', 'buyer_name')->get();
 
-                for ($h = 0; $h < count($buyer_name_check); $h++) {
-                    $buyer_name_list = str_replace(' ', '', strtolower($buyer_name_check[$h]['buyer_name']));
-                    $buyer_name_list_arr[] = $buyer_name_list;
-                }
+        //         for ($h = 0; $h < count($buyer_name_check); $h++) {
+        //             $buyer_name_list = str_replace(' ', '', strtolower($buyer_name_check[$h]['buyer_name']));
+        //             $buyer_name_list_arr[] = $buyer_name_list;
+        //         }
 
-                if (!in_array($category_select_format, $buyer_name_list_arr)) {
-                    $buyer_create = BuyerList::create([
-                        'buyer_name' => $category_select,
-                    ]);
+        //         if (!in_array($category_select_format, $buyer_name_list_arr)) {
+        //             $buyer_create = BuyerList::create([
+        //                 'buyer_name' => $category_select,
+        //             ]);
 
-                    if ($buyer_create) {
-                        $buyer_id = BuyerList::select('buyer_id')->where('buyer_name', $category_select)->first();
-                    }
-                    $category[] = $buyer_id->buyer_id;
-                }
-            }
+        //             if ($buyer_create) {
+        //                 $buyer_id = BuyerList::select('buyer_id')->where('buyer_name', $category_select)->first();
+        //             }
+        //             $category[] = $buyer_id->buyer_id;
+        //         }
+        //     }
 
-            if (is_numeric($p_name_post)) {
-                $p_name[] = $p_name_post;
-            } elseif (!is_numeric($p_name_post)) {
-                $p_name_post_format = str_replace(' ', '', strtolower($p_name_post));;
+        //     if (is_numeric($p_name_post)) {
+        //         $p_name[] = $p_name_post;
+        //     } elseif (!is_numeric($p_name_post)) {
+        //         $p_name_post_format = str_replace(' ', '', strtolower($p_name_post));;
 
-                $style_name_check = ItemList::select('item_id', 'item_name')->get();
+        //         $style_name_check = ItemList::select('item_id', 'item_name')->get();
 
-                for ($g = 0; $g < count($style_name_check); $g++) {
-                    $style_name_list = str_replace(' ', '', strtolower($style_name_check[$g]['item_name']));
-                    $style_name_list_arr[] = $style_name_list;
-                }
+        //         for ($g = 0; $g < count($style_name_check); $g++) {
+        //             $style_name_list = str_replace(' ', '', strtolower($style_name_check[$g]['item_name']));
+        //             $style_name_list_arr[] = $style_name_list;
+        //         }
 
-                if (!in_array($p_name_post_format, $style_name_list_arr)) {
-                    $item_create = ItemList::create([
-                        'item_name' => $p_name_post,
-                    ]);
+        //         if (!in_array($p_name_post_format, $style_name_list_arr)) {
+        //             $item_create = ItemList::create([
+        //                 'item_name' => $p_name_post,
+        //             ]);
 
-                    if ($item_create) {
-                        $item_id = ItemList::select('item_id', 'item_name')->where('item_name', $p_name_post)->first();
-                    }
-                    $p_name[] = $item_id->item_id;
-                }
-            }
+        //             if ($item_create) {
+        //                 $item_id = ItemList::select('item_id', 'item_name')->where('item_name', $p_name_post)->first();
+        //             }
+        //             $p_name[] = $item_id->item_id;
+        //         }
+        //     }
 
-            $style_no[] = $sub[$x]['style_no'];
-            $category_target[] = $sub[$x]['category_target'];
-        }
+        //     $style_no[] = $sub[$x]['style_no'];
+        //     $category_target[] = $sub[$x]['category_target'];
+        // }
     }
 
     public function delete($id)
     {
-        $line = LineData::find($id);
+        $line = LineAssign::find($id);
         $line->delete();
 
         return redirect('/line_data')->with('error', 'Line Deleted Successfully!');

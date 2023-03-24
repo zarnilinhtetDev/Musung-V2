@@ -9,10 +9,7 @@
                 <h1>Line Target</h1>
             </div>
             <div class="col-12 col-md-4 col-lg-4 my-2 m-auto">
-                {{-- <button type="button" class="btn bg-primary custom-btn-theme" data-toggle="modal"
-                    data-target="#addModal1">
-                    Create New Item
-                </button> --}}
+
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -26,6 +23,7 @@
                 <div class="card">
                     <!-- /.card-header -->
                     <div class="card-body p-0">
+                        @if(asset($lines))
                         <table class="table">
                             <thead>
                                 <tr>
@@ -35,46 +33,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
 
-                                    <td><a href="{{ url('/line_entry/1') }}">1</a></td>
-
-                                    <td>300</td>
-                                </tr>
+                                @php
+                                $index = 1;
+                                @endphp
+                                @foreach($lines as $line)
                                 <tr>
-                                    <td>2</td>
-                                    <td><a href="">1S</a></td>
-                                    <td>400</td>
+                                    <td>{{ $index++ }}</td>
+                                    <td><a href="{{ url('/line_entry/'.$line->uid) }}">{{ $line->lname }}</a></td>
+                                    <td>{{ $line->mtarget }}</td>
                                 </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td><a href="">3</a></td>
-                                    <td>350</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td><a href="">4</a></td>
-                                    <td>450</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td><a href="">4S</a></td>
-                                    <td>300</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td><a href="">5A</a></td>
-                                    <td>500</td>
-                                </tr>
-                                <tr>
-                                    <td>7</td>
-                                    <td><a href="">5S</a></td>
-                                    <td>500</td>
-                                </tr>
-
+                                @endforeach
                             </tbody>
                         </table>
+                        @else
+                        <h1 style="color:red;margin-top:20px">Please, insert target for each line!</h1>
+                        @endif
                     </div>
                     <!-- /.card-body -->
                 </div>

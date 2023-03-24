@@ -18,8 +18,9 @@
     <link rel="stylesheet"
         href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
     <!-- iCheck -->
-    <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css"') }}'>
+    <!-- JQVMap -->
+    <link rel=" stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
     <!-- Theme style -->
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
@@ -28,14 +29,7 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
-
-    <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
-
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -72,7 +66,6 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row">
                 <div class="col-12">
 
@@ -90,15 +83,13 @@
                                 <div class="col-12 col-md-4 text-center d_time">
                                     <div class="row">
                                         <div
-                                            class="col-4 col-md-4 border border-secondary rounded-2 text-center ml-5 p-0 ">
-                                            <p>{{ $date }} </p>
+                                            class="col-4 col-md-4 border border-secondary rounded-2 text-center ml-5 p-0">
+                                            <p>{{ date("d.m.Y") }} </p>
                                         </div>
                                         <div
                                             class="col-4 col-md-4 border border-secondary rounded-2 text-center ml-2 p-0">
                                             <p>
-                                                {{ date('g:iA',strtotime($line->s_time) )}} - {{
-                                                date('g:iA',strtotime($line->e_time))}}
-
+                                                7:30AM - 6:00PM
                                             </p>
                                         </div>
                                     </div>
@@ -119,13 +110,11 @@
                             /// Live Clock in line_entry.blade End
                             </script>
 
-
                             <div id="tabmenu" class="container-fluid my-3 p-0">
                                 <div class="row">
                                     <div class="col-12 col-md-2">
                                         <div class="border border-secondary rounded-2">
-                                            <h1 class="text-center text-secondary m-0 fw-bolder text-size">{{
-                                                $line->l_name }}
+                                            <h1 class="text-center text-secondary m-0 fw-bolder text-size"> 1
                                             </h1>
                                         </div>
                                     </div>
@@ -141,7 +130,7 @@
                                                 style="background-color:#fff !important;">Today
                                                 main target -
                                             </span><span>
-                                                {{ $line->main_target }} </span></h1>
+                                                300</span></h1>
                                     </div>
 
                                 </div>
@@ -151,8 +140,7 @@
                                         <div class="row container-fluid p-0 m-0">
                                             <div class="col-12 col-md-0 col-lg-8 m-auto p-0">
                                                 <div style="overflow: auto;max-width:100%;">
-                                                    <table
-                                                        class="table table-striped my-2 tableFixHead results p-0 text-center">
+                                                    <table class="table table-striped my-2 tableFixHead results p-0">
                                                         <thead>
                                                             <tr class="text-center">
                                                                 <th>Time</th>
@@ -163,31 +151,116 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            @foreach($times as $time)
-                                                            @if( $time->time_name != 'temp')
                                                             <tr>
-                                                                <td>{{ date('g:iA',strtotime($time->time_name)) }}</td>
-                                                                <td>{{ $time->actual_target_entry }}</td>
-                                                                <td>{{ $time->div_actual_target }}</td>
-                                                                <td>@if(isset($time->div_actual_target))
-                                                                    {{
-                                                                    $time->div_actual_percent
-                                                                    }}%
-                                                                    @endif
-                                                                </td>
-                                                                <td><a type="button" class="btn btn-primary w-100"
-                                                                        data-toggle="modal"
-                                                                        data-tid="{{ $time->time_id }}"
-                                                                        data-uid="{{ $time->uid }}"
-                                                                        data-tname="{{ date('g:iA',strtotime($time->time_name)) }}"
-                                                                        data-actual_target_entry="{{ $time->actual_target_entry }}"
-                                                                        data-target="#addModal1">
+                                                                <td>8:30 AM</td>
+                                                                <td>39</td>
+                                                                <td>28</td>
+                                                                <td>71%</td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
                                                                         Fill
-                                                                    </a>
-                                                                </td>
+                                                                    </button></td>
                                                             </tr>
-                                                            @endif
-                                                            @endforeach
+                                                            <tr>
+                                                                <td>9:30 AM</td>
+                                                                <td>39</td>
+                                                                <td>30</td>
+                                                                <td>76%</td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
+                                                                        Fill
+                                                                    </button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>10:30 AM</td>
+                                                                <td>39</td>
+                                                                <td>30</td>
+                                                                <td>76%</td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
+                                                                        Fill
+                                                                    </button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>11:30 AM</td>
+                                                                <td>39</td>
+                                                                <td>32</td>
+                                                                <td>82%</td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
+                                                                        Fill
+                                                                    </button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>1:00 PM</td>
+                                                                <td>39</td>
+                                                                <td>35</td>
+                                                                <td>89%</td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
+                                                                        Fill
+                                                                    </button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>2:00 PM</td>
+                                                                <td>39</td>
+                                                                <td>32</td>
+                                                                <td>82%</td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
+                                                                        Fill
+                                                                    </button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>3:00 PM</td>
+                                                                <td>39</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
+                                                                        Fill
+                                                                    </button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>4:00 PM</td>
+                                                                <td>39</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
+                                                                        Fill
+                                                                    </button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>5:00 PM</td>
+                                                                <td>39</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
+                                                                        Fill
+                                                                    </button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>6:00 PM</td>
+                                                                <td>39</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
+                                                                        Fill
+                                                                    </button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>7:00 PM</td>
+                                                                <td>39</td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td><button type="button" class="btn btn-primary w-100"
+                                                                        data-toggle="modal" data-target="#addModal1">
+                                                                        Fill
+                                                                    </button></td>
+                                                            </tr>
 
                                                         </tbody>
                                                     </table>
@@ -201,10 +274,10 @@
                                 aria-labelledby="addModal1Label" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
-                                        <form action="{{ route('line_target_entry') }}" method="POST">
-                                            @csrf
+                                        <form action="#">
                                             <div class="modal-header">
-                                                <h1 class="fw-bold heading-text" name="tname" id="tname">
+                                                <h1 class="fw-bold heading-text">
+                                                    <?php echo date('d-m-Y'); ?>
                                                 </h1>
                                             </div>
                                             <div class="modal-body">
@@ -213,30 +286,20 @@
 
                                                         <div class="col-12 my-2">
                                                             <div class="row container-fluid">
-                                                                <input type="hidden" name="tid" id="tid">
-                                                                <input type="hidden" name="uid" id="uid">
-
                                                                 <div class="col-12 col-md-4 m-auto">
-                                                                    @foreach($items as $item)
-                                                                    <h5 class="fw-bold heading-text">#
-                                                                        {{ $item->style_no }} , {{ $item->p_name }}
+                                                                    <h5 class="fw-bold heading-text">
+                                                                        #G001P , Coat
                                                                     </h5>
-                                                                    @endforeach
                                                                 </div>
                                                                 <div class="col-12 col-md-4">
                                                                     <label>Target</label>
                                                                     <input type="number" class="form-control"
-                                                                        name="show_target" id="show_target" required
-                                                                        disabled />
-                                                                    <input type="hidden" class="form-control"
-                                                                        name="target" id="target" required />
-
+                                                                        name="target" value="39" />
                                                                 </div>
                                                                 <div class="col-12 col-md-4">
                                                                     <label>Actual</label>
                                                                     <input type="number" class="form-control"
-                                                                        name="p_detail_actual_target"
-                                                                        id="p_detail_actual_target" min='1' required />
+                                                                        name="p_detail_actual_target[]" required" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -253,76 +316,11 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-
     </section>
-    <!-- jQuery -->
-    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- ChartJS -->
-    <script src="{{ asset('plugins/chart.js/Chart.min.js') }}"></script>
-    <!-- Sparkline -->
-    <script src="{{ asset('plugins/sparklines/sparkline.js') }}"></script>
-
-    <!-- jQuery Knob Chart -->
-    <script src="{{ asset('plugins/jquery-knob/jquery.knob.min.js') }}"></script>
-    <!-- daterangepicker -->
-    <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
-    <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
-    <!-- Summernote -->
-    <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
-    <!-- overlayScrollbars -->
-    <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
-    <!-- DataTables  & Plugins -->
-    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/jszip/jszip.min.js') }}"></script>
-    <script src="{{ asset('plugins/pdfmake/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('plugins/pdfmake/vfs_fonts.js') }}"></script>
-
-    <!-- AdminLTE App -->
-    <script src="{{ asset('dist/js/adminlte.js') }}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{ asset('dist/js/demo.js') }}"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $('#addModal1').on('show.bs.modal', function(event) {
-
-            var button = $(event.relatedTarget);
-            var tid = button.data('tid');
-            var uid = button.data('uid');
-            var tname = button.data('tname');
-            var starget = button.data('actual_target_entry');
-            var atarget = button.data('actual_target_entry');
-            var modal = $(this);
-
-            document.getElementById("tname").innerHTML = tname;
-
-            modal.find('.modal-body #tid').val(tid);
-            modal.find('.modal-body #uid').val(uid);
-            modal.find('.modal-body #show_target').val(starget);
-            modal.find('.modal-body #target').val(atarget);
-            });
-    });
-    </script>
+    </div>
 </body>

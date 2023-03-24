@@ -85,6 +85,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="custom_body">
+                                    {{-- @foreach($lines as $line) --}}
                                     <tr>
                                         <td><span class="dot"></span></td>
                                         <td class="text-center" style="vertical-align: middle;"><a
@@ -362,7 +363,9 @@
                                     </tr>
                                     <tr>
                                         <td><span class="dot"></span></td>
-                                        <td class="text-center" style="vertical-align: middle;">1S</td>
+                                        <td class="text-center" style="vertical-align: middle;">
+                                            <a href="{{ url('/one_line/2') }}">1S</a>
+                                        </td>
                                         <td scope="col" style="vertical-align: middle;" class="p-0">
                                             <table class="w-100 text-center m-0">
                                                 <tr>
@@ -660,7 +663,8 @@
                                     </tr>
                                     <tr>
                                         <td><span class="dot"></span></td>
-                                        <td class="text-center" style="vertical-align: middle;">3</td>
+                                        <td class="text-center" style="vertical-align: middle;"><a
+                                                href="{{ url('/one_line/3') }}">3</a></td>
                                         <td style="vertical-align: middle;" class="p-0">
                                             <table class="w-100 text-center m-0">
                                                 <tr>
@@ -958,7 +962,8 @@
                                     </tr>
                                     <tr>
                                         <td><span class="dot1"></span></td>
-                                        <td class="text-center" style="vertical-align: middle;">4</td>
+                                        <td class="text-center" style="vertical-align: middle;"><a
+                                                href="{{ url('/one_line/4') }}">4</a></td>
                                         <td style="vertical-align: middle;" class="p-0">
                                             <table class="w-100 text-center m-0">
                                                 <tr>
@@ -1258,7 +1263,8 @@
                                     </tr>
                                     <tr>
                                         <td><span class="dot"></span></td>
-                                        <td class="text-center" style="vertical-align: middle;">4S</td>
+                                        <td class="text-center" style="vertical-align: middle;"><a
+                                                href="{{ url('/one_line/5') }}">4S</a></td>
                                         <td style="vertical-align: middle;" class="p-0">
                                             <table class="w-100 text-center m-0">
                                                 <tr>
@@ -1556,7 +1562,8 @@
                                     </tr>
                                     <tr>
                                         <td><span class="dot1"></span></td>
-                                        <td class="text-center" style="vertical-align: middle;">5A</td>
+                                        <td class="text-center" style="vertical-align: middle;"><a
+                                                href="{{ url('/one_line/6') }}">5A</a></td>
                                         <td style="vertical-align: middle;" class="p-0">
                                             <table class="w-100 text-center m-0">
                                                 <tr>
@@ -1856,7 +1863,8 @@
                                     </tr>
                                     <tr>
                                         <td><span class="dot1"></span></td>
-                                        <td class="text-center" style="vertical-align: middle;">5</td>
+                                        <td class="text-center" style="vertical-align: middle;"><a
+                                                href="{{ url('/one_line/7') }}">5</a></td>
                                         <td style="vertical-align: middle;" class="p-0">
                                             <table class="w-100 text-center m-0">
                                                 <tr>
@@ -2156,7 +2164,8 @@
                                     </tr>
                                     <tr>
                                         <td><span class="dot"></span></td>
-                                        <td class="text-center" style="vertical-align: middle;">5S</td>
+                                        <td class="text-center" style="vertical-align: middle;"><a
+                                                href="{{ url('/one_line/8') }}">5S</a></td>
                                         <td style="vertical-align: middle;" class="p-0">
                                             <table class="w-100 text-center m-0">
                                                 <tr>
@@ -2454,7 +2463,8 @@
                                     </tr>
                                     <tr>
                                         <td><span class="dot"></span></td>
-                                        <td class="text-center" style="vertical-align: middle;">8</td>
+                                        <td class="text-center" style="vertical-align: middle;"><a
+                                                href="{{ url('/one_line/9') }}">8</a></td>
                                         <td style="vertical-align: middle;" class="p-0">
                                             <table class="w-100 text-center m-0">
                                                 <tr>
@@ -2750,6 +2760,7 @@
                                         <td class="text-center" style="vertical-align: middle;">
                                             46%</td>
                                     </tr>
+                                    {{-- @endforeach --}}
                                     <tr>
                                         <td></td>
                                         <td scope="col" style="vertical-align: middle;font-weight:bold;">Total</td>
@@ -3054,10 +3065,13 @@
 
 {{-- @endadmin --}}
 @endsection
-
+@php
+$id = Auth::user()->id;
+@endphp
 @if(Auth::user()->role == 2)
+
 <script type="text/javascript">
-    window.location = "{{ url('/line_entry/1') }}";
+    window.location = "{{ url('/line_entry/'.$id) }}";
 </script>
 
 @endif
