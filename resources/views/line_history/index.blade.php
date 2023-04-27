@@ -28,6 +28,12 @@
             <div class="col-12">
 
                 <div class="card">
+                    <button type="button" class="btn btn-secondary hide_bar" id="hide_bar" onclick="toggleNav()">Hide
+                        Navigation
+                        Bar</button>
+                    <button type="button" class="btn btn-secondary show_bar" id="show_bar" onclick="showToggleNav()"
+                        style="display: none;">Show Navigation
+                        Bar</button>
                     <div class="card-body">
                         <div class="row mt-2">
                             <div class="col-md-4 form-group">

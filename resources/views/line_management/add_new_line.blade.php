@@ -41,8 +41,15 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    <button type="button" class="btn btn-secondary hide_bar" id="hide_bar" onclick="toggleNav()">Hide
+                        Navigation
+                        Bar</button>
+                    <button type="button" class="btn btn-secondary show_bar" id="show_bar" onclick="showToggleNav()"
+                        style="display: none;">Show Navigation
+                        Bar</button>
                     <!-- /.card-header -->
                     <div class="card-body">
+
                         <table id="linetable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -187,11 +194,11 @@
 <script type="text/javascript">
     $(document).ready(function () {
             var table = $('#linetable').DataTable({
-        "paging": true,
+        "paging": false,
         "lengthChange": false,
         "searching": true,
         "ordering": false,
-        "info": true,
+        "info": false,
         "autoWidth": false,
         "responsive": true,
         });

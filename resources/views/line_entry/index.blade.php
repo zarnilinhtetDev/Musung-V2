@@ -21,6 +21,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    <button type="button" class="btn btn-secondary hide_bar" id="hide_bar" onclick="toggleNav()">Hide
+                        Navigation
+                        Bar</button>
+                    <button type="button" class="btn btn-secondary show_bar" id="show_bar" onclick="showToggleNav()"
+                        style="display: none;">Show Navigation
+                        Bar</button>
                     <!-- /.card-header -->
                     <div class="card-body p-0">
                         @if(asset($lines))
@@ -29,6 +35,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Line Name</th>
+                                    <th>Line Manager</th>
                                     <th>Target</th>
                                 </tr>
                             </thead>
@@ -41,6 +48,7 @@
                                 <tr>
                                     <td>{{ $index++ }}</td>
                                     <td><a href="{{ url('/line_entry/'.$line->uid) }}">{{ $line->lname }}</a></td>
+                                    <td>{{ $line->uname }}</td>
                                     <td>{{ $line->mtarget }}</td>
                                 </tr>
                                 @endforeach

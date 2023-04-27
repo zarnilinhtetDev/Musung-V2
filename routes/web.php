@@ -14,7 +14,6 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\ImportExportController;
 
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,3 +77,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //// Search in LineSetting ////
 Route::get('buyer_search', [LineDataController::class, 'buyerSearch'])->middleware('auth');
 Route::get('item_search', [LineDataController::class, 'itemSearch'])->middleware('auth');
+
+
+// Livewire
+// Route::get('/one/{id}', [One::class]);

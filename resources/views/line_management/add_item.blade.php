@@ -47,11 +47,14 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    <button type="button" class="btn btn-secondary hide_bar" id="hide_bar" onclick="toggleNav()">Hide
+                        Navigation
+                        Bar</button>
+                    <button type="button" class="btn btn-secondary show_bar" id="show_bar" onclick="showToggleNav()"
+                        style="display: none;">Show Navigation
+                        Bar</button>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="form-group">
-                            <a class="btn btn-info" href="">Export File</a>
-                        </div>
                         <table id="itemtable" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -191,16 +194,16 @@
     </div>
     </div>
 </section>
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script> --}}
+
 <script src="{{ asset('plugins/jquery/3.0.0-alpha1/jquery.min.js') }}"></script>
 <script type="text/javascript">
     $(document).ready(function () {
             var table = $('#itemtable').DataTable({
-        "paging": true,
+        "paging": false,
         "lengthChange": false,
         "searching": true,
         "ordering": false,
-        "info": true,
+        "info": false,
         "autoWidth": false,
         "responsive": true,
         });

@@ -4,7 +4,30 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{--
+    <meta http-equiv="refresh" content="120"> --}}
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     <title>Line Management Software</title>
+
+    <!-- AJAX -->
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script> --}}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" async></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+
     <link rel="icon" type="image/x-icon" href="{{ asset('dist/img/companylogo.png')  }}">
 
     <!-- Google Font: Source Sans Pro -->
@@ -36,17 +59,18 @@
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}" />
 
-    {{-- Select 2 --}}
-    {{-- <script src="{{ asset('dist/js/select2.min,js') }}"></script>
-    <link href="{{ asset('dist/css/select2.min.css') }}" rel="stylesheet" /> --}}
+    <!-- Select2 CSS -->
 
+    <link rel="stylesheet" href="{{ asset('dist/css/select2.min.css') }}" />
+    <script src="{{ asset('dist/js/select2.min.js') }}"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    {{--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> --}}
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition layout-bottom-nav">
     @if(request()->is('/'))
     @yield('content')
     @else
@@ -61,9 +85,8 @@
     </div>
     @endif
     <!-- ./wrapper -->
+    {{-- <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script> --}}
 
-    <!-- jQuery -->
-    <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->
     <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -110,7 +133,6 @@
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
 
-
     <script type="text/javascript">
         $(function () {
         $("#example1").DataTable({
@@ -126,7 +148,43 @@
           "autoWidth": false,
           "responsive": true,
         });
+        $("#tblExample").DataTable({
+        "searching": false,
+        "ordering": false,
+        "paging": false,
+        "info": false,
+        "responsive": false, "lengthChange": false, "autoWidth": false,
+        "buttons": [{
+        text: 'Export PDF',
+        extend: 'pdfHtml5',
+        title: 'Line_Report_'+$("#tdate").val(),
+        orientation: 'landscape',
+        pageSize: 'A3',
+        }]
+        }).buttons().container().appendTo('.col-md-6:eq(1)');
       });
+
+    </script>
+    <script>
+        function toggleNav() {
+        var hideNav = document.getElementById('navbar');
+        var hide_bar = document.getElementById('hide_bar');
+        var show_bar = document.getElementById('show_bar');
+
+        hideNav.style.display = 'none';
+        hide_bar.style.display = 'none';
+        show_bar.style.display = 'block';
+        }
+
+        function showToggleNav() {
+        var hideNav = document.getElementById('navbar');
+        var hide_bar = document.getElementById('hide_bar');
+        var show_bar = document.getElementById('show_bar');
+
+        hideNav.style.display = 'block';
+        hide_bar.style.display = 'block';
+        show_bar.style.display = 'none';
+        }
     </script>
 </body>
 

@@ -10,10 +10,13 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+
 class DashboardController extends Controller
 {
     public function __construct()
     {
+        ini_set('max_execution_time', 300);
+
         $this->middleware('auth');
 
         $this->middleware(function ($request, $next) {
@@ -21,9 +24,8 @@ class DashboardController extends Controller
             return $next($request);
         });
     }
-    /**
-     * Display a listing of the resource.
-     */
+
+
     public function index()
     {
 
@@ -45,75 +47,9 @@ class DashboardController extends Controller
         //     ->where('line_assign.assign_date', '=', $date)
         //     ->first();
 
-
-        $top_line = DB::table('time')
-            ->select(
-                'time.line_id',
-                'line.l_name',
-                'line_assign.main_target as m_target',
-                'time.assign_id',
-                DB::raw('SUM(time.actual_target_entry) as total_div_target'),
-                DB::raw('SUM(time.div_actual_target) as total_actual_target'),
-                DB::raw('ROUND((SUM(time.div_actual_target)*100/line_assign.main_target),0) as actual_target_percent'),
-                DB::raw('ROUND((SUM(time.div_actual_target)*100/SUM(time.actual_target_entry)),0) as diff_target_percent'),
-                DB::raw('ROW_NUMBER() OVER(ORDER BY  ROUND((SUM(time.div_actual_target)*100/SUM(time.actual_target_entry)),0) DESC
-)AS row_num')
-            )
-            ->join('line_assign', 'line_assign.assign_id', '=', 'time.assign_id')
-            ->join('line', 'line.l_id', '=', 'time.line_id')
-            ->where('line_assign.assign_date', '=', $date)
-            ->whereNotNull('time.div_actual_target')
-            ->groupBy('time.line_id', 'time.assign_id', 'line_assign.main_target', 'line.l_name')
-            ->get();
-
-        return view('main.one_line', ['top_line' => $top_line, 'id' => $id]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('main.one_line', compact(
+            'date',
+            'id',
+        ));
     }
 }

@@ -6,10 +6,16 @@ use App\Models\Buyer;
 use App\Models\Item;
 use App\Models\Line;
 use App\Models\LineAssign;
+use App\Models\ProductDetail;
+use App\Models\Time;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use DateTime;
+use DateInterval;
+use DatePeriod;
+use Illuminate\Http\JsonResponse;
 
 class LineDataController extends Controller
 {
@@ -40,6 +46,19 @@ class LineDataController extends Controller
 
         $items = Item::all();
 
+        $users = DB::table('users')
+            ->select('id', 'name')
+            ->where('role', 2)
+            ->whereNotIn('id', function ($q) {
+                $q->select('user_id')
+                    ->from('line_assign')
+                    ->where('assign_date', '=', date("d.m.Y"))
+                    ->get();
+            })
+            ->orderBy('id', 'asc')
+            ->get();
+
+
         $line_assign_status = DB::table('line_assign')
             ->join('line', 'line.l_id', '=', 'line_assign.l_id')
             ->select('line_assign.assign_id', 'line.l_id', 'line_assign.assign_date', 'line.a_status')
@@ -49,96 +68,240 @@ class LineDataController extends Controller
         $line_assign_detail = DB::table('line_assign')
             ->join('line', 'line.l_id', '=', 'line_assign.l_id')
             ->join('users as u1', 'u1.id', '=', 'line_assign.user_id')
-            // ->join('users as u2', 'line_data.assign_date', '=', $date_string)
             ->select('line_assign.*', 'line.*', 'u1.*')
+            ->where('line_assign.assign_date', $date_string)
             ->orderBy('line.l_pos', 'asc')
             ->get();
 
-        return view('line_management.add_line_data', ['lines' => $lines, 'line_data' => $line_data, 'line_assign_status' => $line_assign_status,  'line_assign_detail' => $line_assign_detail, 'buyers' => $buyers, 'items' => $items]);
+        // $t_hours = Time::select(DB::raw('COUNT(time_id) as t_count'))
+        //     ->where('assign_date', $date_string)
+        //     ->groupBy('line_id')
+        //     ->orderBy('line_id', 'asc')
+        //     ->get();
+
+        return view('line_management.add_line_data', ['lines' => $lines, 'line_data' => $line_data, 'line_assign_status' => $line_assign_status,  'line_assign_detail' => $line_assign_detail, 'buyers' => $buyers, 'items' => $items, 'users' => $users]);
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $l_id = request()->post('l_id');
-        $line_manager = request()->post('l_manager');
-        $s_time = request()->post('start_time');
-        $e_time = request()->post('end_time');
-        $work_hour = request()->post('work_hour');
-        $lunch_start = request()->post('lunch_start');
-        $lunch_end = request()->post('lunch_end');
-        $progress = request()->post('progress');
-        $category = request()->post('category');
-        $style_name = request()->post('style_name');
-        $p_name = request()->post('p_name');
+
+        $date =  date("d.m.Y");
+        $uid = Auth::user()->id;
 
         $category = [];
-        $style_no = [];
-        $p_name = [];
-        $category_target = [];
-        $buyer_name_list_arr = [];
-        $style_name_list_arr = [];
+        $category_target = $request->category_target;
+        $number = count($category_target);
+        $total_category_target =  array_sum($category_target);
 
-        // for ($x = 0; $x < count($sub); $x++) {
-        //     $category_select = $sub[$x]['category_select'];
-        //     $p_name_post = $sub[$x]['p_name'];
 
-        //     if (is_numeric($category_select)) {
-        //         $category[] = $category_select;
-        //     } elseif (!is_numeric($category_select)) {
-        //         $category_select_format = str_replace(' ', '', strtolower($category_select));;
+        if ($number > 0) {
+            $style_name = $request->style_name;
+            $item_select = $request->item_select;
+            $buyer_select = $request->buyer_select;
 
-        //         $buyer_name_check = BuyerList::select('buyer_id', 'buyer_name')->get();
+            $minute = date("H:i", $request->progress * 60);
+            $from_time = strtotime($request->start_time);
+            $to_time = strtotime($request->end_time);
+            $lunch_from_time = strtotime($request->lunch_start);
+            $lunch_to_time = strtotime($request->lunch_end);
 
-        //         for ($h = 0; $h < count($buyer_name_check); $h++) {
-        //             $buyer_name_list = str_replace(' ', '', strtolower($buyer_name_check[$h]['buyer_name']));
-        //             $buyer_name_list_arr[] = $buyer_name_list;
-        //         }
+            $begin_from_time = date('H:i', $from_time);
+            $end_to_time = date('H:i', $to_time);
+            $begin_lunch_from_time = date('H:i', $lunch_from_time);
+            $end_lunch_to_time = date('H:i', $lunch_to_time);
 
-        //         if (!in_array($category_select_format, $buyer_name_list_arr)) {
-        //             $buyer_create = BuyerList::create([
-        //                 'buyer_name' => $category_select,
-        //             ]);
+            $begin = new DateTime($begin_from_time);
+            $end_time = new DateTime($end_to_time);
+            $lunch_begin = new DateTime($begin_lunch_from_time);
+            $lunch_end = new DateTime($end_lunch_to_time);
 
-        //             if ($buyer_create) {
-        //                 $buyer_id = BuyerList::select('buyer_id')->where('buyer_name', $category_select)->first();
-        //             }
-        //             $category[] = $buyer_id->buyer_id;
-        //         }
-        //     }
+            $interval = DateInterval::createFromDateString($request->progress . ' min');
+            $times = new DatePeriod($begin, $interval, $lunch_begin);
 
-        //     if (is_numeric($p_name_post)) {
-        //         $p_name[] = $p_name_post;
-        //     } elseif (!is_numeric($p_name_post)) {
-        //         $p_name_post_format = str_replace(' ', '', strtolower($p_name_post));;
+            foreach ($times as $time) {
+                $timeArr[] = $time->add($interval)->format('H:i');
+            }
 
-        //         $style_name_check = ItemList::select('item_id', 'item_name')->get();
+            $endOfArray = end($timeArr);
+            $endOfArray_to_date = date('H:i', strtotime($endOfArray));
 
-        //         for ($g = 0; $g < count($style_name_check); $g++) {
-        //             $style_name_list = str_replace(' ', '', strtolower($style_name_check[$g]['item_name']));
-        //             $style_name_list_arr[] = $style_name_list;
-        //         }
+            if ($endOfArray_to_date > $begin_lunch_from_time) { ///// Pop last item if greater than lunch_start_time
+                array_pop($timeArr);
+            }
+            $num_TimeArray = count($timeArr);
 
-        //         if (!in_array($p_name_post_format, $style_name_list_arr)) {
-        //             $item_create = ItemList::create([
-        //                 'item_name' => $p_name_post,
-        //             ]);
+            //// loop for Lunch End Time to End Time
+            $total_time = strtotime($endOfArray_to_date) + strtotime($minute) + ($lunch_to_time - $lunch_from_time);
+            $lunch_end_time =  date('H:i', $total_time);
+            $lunch_end_time_to_period = new DateTime($lunch_end_time);
 
-        //             if ($item_create) {
-        //                 $item_id = ItemList::select('item_id', 'item_name')->where('item_name', $p_name_post)->first();
-        //             }
-        //             $p_name[] = $item_id->item_id;
-        //         }
-        //     }
+            $cal_end_time = new DatePeriod($lunch_end_time_to_period, $interval, $end_time);
 
-        //     $style_no[] = $sub[$x]['style_no'];
-        //     $category_target[] = $sub[$x]['category_target'];
-        // }
+            $endTimeArr[] = $lunch_end_time;
+            foreach ($cal_end_time as $cal) {
+                $endTimeArr[] = $cal->add($interval)->format('H:i');
+            }
+
+            $endOfEndTimeArr = end($endTimeArr);
+            $endOfEndTimeArr_to_date = date('H:i', strtotime($endOfEndTimeArr));
+
+            $num_EndTimeArray = count($endTimeArr);
+
+            if ($endOfEndTimeArr > $end_time->format('H:i')) {
+                array_pop($endTimeArr);
+                $getMinuteEndTimeArr = (strtotime($endOfEndTimeArr) - $to_time) / 60;
+                $diffEndTime = strtotime($endOfEndTimeArr) - strtotime(date("H:i", $getMinuteEndTimeArr * 60));
+                $diffEndTime_to_date =  date("H:i", $diffEndTime);
+                $endTimeArr[] = $diffEndTime_to_date;
+            }
+
+            // Divide total target by all time counts
+            if ($request->lunch_start == $request->end_time) {
+                $totalTimeArr = $timeArr;
+                $total_division = round(($total_category_target / $num_TimeArray), 0);
+            } else {
+                $totalTimeArr = array_merge($timeArr, $endTimeArr);
+                $countTotalTimeArr = count($totalTimeArr);
+                $total_division = round(($total_category_target / $countTotalTimeArr), 0);
+            }
+
+            // $total_division = round(($total_category_target / $countTotalTimeArr), 0);
+
+            $total_division_2 = $total_division;
+            $total_division_3 = $total_division;
+
+            $num_1 = 0;
+            $num_2 = 0;
+
+            // while ($num_1 < $countTotalTimeArr) {
+            //     $div_target[] = $total_division;
+            //     $total_division += $total_division_2;
+            //     $num_1++;
+            // }
+            // $end_div_target = end($div_target);
+
+            // if ($end_div_target > $total_category_target) {
+            //     array_pop($div_target);
+            //     $div_target[] = $total_category_target;
+            // }
+
+
+            // while ($num_2 < $countTotalTimeArr) {
+            //     $target_for_line_entry[] = $total_division_3;
+            //     $num_2++;
+            // }
+
+            if ($request->lunch_start == $request->end_time) {
+                $t_hours = $num_TimeArray;
+
+                while ($num_1 < $num_TimeArray) {
+                    $div_target[] = $total_division;
+                    $total_division += $total_division_2;
+                    $num_1++;
+                }
+                $end_div_target = end($div_target);
+
+                if ($end_div_target > $total_category_target) {
+                    array_pop($div_target);
+                    $div_target[] = $total_category_target;
+                }
+
+
+                while ($num_2 < $num_TimeArray) {
+                    $target_for_line_entry[] = $total_division_3;
+                    $num_2++;
+                }
+            } else {
+                $t_hours = $countTotalTimeArr;
+
+                while ($num_1 < $countTotalTimeArr) {
+                    $div_target[] = $total_division;
+                    $total_division += $total_division_2;
+                    $num_1++;
+                }
+                $end_div_target = end($div_target);
+
+                if ($end_div_target > $total_category_target) {
+                    array_pop($div_target);
+                    $div_target[] = $total_category_target;
+                }
+
+
+                while ($num_2 < $countTotalTimeArr) {
+                    $target_for_line_entry[] = $total_division_3;
+                    $num_2++;
+                }
+            }
+
+            // Insert data into line_assign table
+            $data = LineAssign::create([
+                'user_id' => $request->line_manager,
+                'l_id' => $request->l_id,
+                'main_target' => $total_category_target,
+                's_time' => $request->start_time,
+                'e_time' => $request->end_time,
+                'lunch_s_time' => $request->lunch_start,
+                'lunch_e_time' => $request->lunch_end,
+                'cal_work_min' => $request->progress,
+                't_work_hr' => $t_hours,
+                'assign_date' => $date
+            ])->get()->last();
+
+            $assign_id = $data['assign_id'];
+
+            // Insert data in time table
+            if ($t_hours > 0) {
+                for ($j = 0; $j < count($totalTimeArr); $j++) {
+                    Time::create([
+                        'time_name' => $totalTimeArr[$j],
+                        'line_id' => $request->l_id,
+                        'assign_id' => $assign_id,
+                        'div_target' => $div_target[$j],
+                        'actual_target_entry' => $target_for_line_entry[$j],
+                        'assign_date' => $date,
+                    ]);
+                }
+            }
+
+            //Insert p_detail table
+            for ($i = 0; $i < count($item_select); $i++) {
+                $time_count = DB::table('time')
+                    ->select('assign_id', 'time_name')
+                    ->where('assign_id', '=', $assign_id)
+                    ->orderBy('time_name', 'desc')
+                    ->get();
+                $time_count_decode = json_decode(json_encode($time_count), true);
+                $count_time = count($time_count_decode);
+
+                $div_target_quantity = round(($category_target[$i] / $count_time), 0);
+
+                ProductDetail::create([
+                    'assign_id' => $assign_id,
+                    'l_id' => $request->l_id,
+                    'p_cat_id' => $buyer_select[$i],
+                    'p_name' => $item_select[$i],
+                    'style_no' => $style_name[$i],
+                    'quantity' => $category_target[$i],
+                    'div_quantity' => $div_target_quantity
+                ]);
+            }
+        }
+
+        return response()->json(['success' => 'Product saved successfully.']);
     }
+
+
 
     public function delete($id)
     {
         $line = LineAssign::find($id);
         $line->delete();
+
+        $time = Time::where('assign_id', '=', $id);
+        $time->delete();
+
+        $p_detail = ProductDetail::where('assign_id', '=', $id);
+        $p_detail->delete();
 
         return redirect('/line_data')->with('error', 'Line Deleted Successfully!');
     }
@@ -160,9 +323,8 @@ class LineDataController extends Controller
                 "text" => $buyer->buyer_name
             );
         }
-        var_dump($response);
-        die();
-        // return response()->json($response);
+
+        return response()->json($response);
     }
 
     public function itemSearch(Request $request)

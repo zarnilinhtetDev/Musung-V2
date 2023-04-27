@@ -10,7 +10,7 @@
     box-sizing: border-box;
     cursor: pointer;
     display: block;
-    height: 28px;
+    /* height: 28px; */
     user-select: none;
     -webkit-user-select: none
 }
@@ -62,14 +62,7 @@
     font-size: 100%;
     margin-top: 5px;
     margin-left: 5px;
-    padding: 0;
-    max-width: 100%;
-    resize: none;
-    height: 18px;
-    vertical-align: bottom;
-    font-family: sans-serif;
-    overflow: hidden;
-    word-break: keep-all
+    padding: 0
 }
 
 .select2-container .select2-search--inline .select2-search__field::-webkit-search-cancel-button {
@@ -105,7 +98,8 @@
 }
 
 .select2-results__option--selectable {
-    cursor: pointer
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .select2-container--open .select2-dropdown {
@@ -182,7 +176,8 @@
 
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: #444;
-    line-height: 28px
+    line-height: 28px;
+    font-size: 16px;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__clear {
@@ -248,22 +243,16 @@
     border-radius: 4px;
     cursor: text;
     padding-bottom: 5px;
-    padding-right: 5px;
-    position: relative
-}
-
-.select2-container--default .select2-selection--multiple.select2-selection--clearable {
-    padding-right: 25px
+    padding-right: 5px
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__clear {
     cursor: pointer;
+    float: right;
     font-weight: bold;
     height: 20px;
     margin-right: 10px;
     margin-top: 5px;
-    position: absolute;
-    right: 0;
     padding: 1px
 }
 
@@ -271,18 +260,10 @@
     background-color: #e4e4e4;
     border: 1px solid #aaa;
     border-radius: 4px;
-    box-sizing: border-box;
     display: inline-block;
     margin-left: 5px;
     margin-top: 5px;
-    padding: 0;
-    padding-left: 20px;
-    position: relative;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: bottom;
-    white-space: nowrap
+    padding: 0
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
@@ -301,10 +282,7 @@
     cursor: pointer;
     font-size: 1em;
     font-weight: bold;
-    padding: 0 4px;
-    position: absolute;
-    left: 0;
-    top: 0
+    padding: 0 4px
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover, .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:focus {
@@ -426,7 +404,8 @@
 
 .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
     background-color: #5897fb;
-    color: white
+    color: white;
+    font-size: 16px;
 }
 
 .select2-container--default .select2-results__group {
@@ -671,7 +650,8 @@
 
 .select2-container--classic .select2-results__option--highlighted.select2-results__option--selectable {
     background-color: #3875d7;
-    color: #fff
+    color: #fff;
+    font-size: 16px;
 }
 
 .select2-container--classic .select2-results__group {

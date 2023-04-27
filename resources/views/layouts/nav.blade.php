@@ -5,38 +5,40 @@ $roleid = Auth::user()->role;
 @endphp
 <!-- Navbar -->
 @if ($roleid != 2)
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
+<div id="navbar">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" id="collapse_div">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
 
 
-    </ul>
+        </ul>
 
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
+        <!-- Right navbar links -->
+        <ul class="navbar-nav ml-auto">
 
-        <li class="nav-item">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                <i class="fas fa-expand-arrows-alt"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true"
-                href="{{ route('logout') }}" role="button" onclick="event.preventDefault();
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="#collapse_div" role="button">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true"
+                    href="{{ route('logout') }}" role="button" onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
-                <span>Logout</span>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                    @csrf
-                </form>
-            </a>
+                    <span>Logout</span>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </a>
 
-        </li>
+            </li>
 
-    </ul>
-</nav>
+        </ul>
+    </nav>
+</div>
 
 <!-- /.navbar -->
 
@@ -192,7 +194,8 @@ $roleid = Auth::user()->role;
 
 
                 <li class="nav-item">
-                    <a href="{{ route('report') }}" class="nav-link">
+                    <a href="{{ route('report') }}" class="nav-link {{ (request()->is('report')) ? 'active' : ''
+                                    }}">
                         <i class="nav-icon fas fa-edit mr-3"></i>
                         <p>
                             Report

@@ -54,7 +54,12 @@ class UserManagementController extends Controller
             ->orderBy('id', 'asc')
             ->get();
 
-        return view('user_management.index', ['users' => $users, 'lines' => $lines, 'admins' => $admins, 'operators' => $operators, 'managers' => $managers, 'owners' => $owners, 'viewers' => $viewers]);
+        $usernames = DB::table('users')
+            ->select('username')
+            ->orderBy('id', 'asc')
+            ->get();
+
+        return view('user_management.index', ['users' => $users, 'lines' => $lines, 'admins' => $admins, 'operators' => $operators, 'managers' => $managers, 'owners' => $owners, 'viewers' => $viewers, 'usernames' => $usernames]);
     }
 
     public function store(Request $request)

@@ -272,6 +272,36 @@ th, td {
     color: #6495ed;
 }
 
+.hide_bar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 3;
+}
+
+.show_bar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 3;
+}
+
+.line_setting_btn {
+    background-color: #5C636A;
+    color: #FFFFFF;
+    font-size: 18px;
+}
+
+.line_setting_btn_2 {
+    background-color: hsl(222, 79%, 38%);
+    color: #FFFFFF;
+    font-size: 18px;
+}
+
+#line_assign_post {
+    font-size: 18px;
+}
+
 @media only screen and (max-width: 850px) {
     .d_time {
         margin-top: 22px;

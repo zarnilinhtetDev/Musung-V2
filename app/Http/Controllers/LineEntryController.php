@@ -27,8 +27,9 @@ class LineEntryController extends Controller
     {
         $date = date("d.m.Y");
 
-        $lines = LineAssign::select('line.l_id as lid', 'user_id as uid', 'line.l_name as lname', 'line_assign.main_target as mtarget')
+        $lines = LineAssign::select('line.l_id as lid', 'user_id as uid', 'users.name as uname', 'line.l_name as lname', 'line_assign.main_target as mtarget')
             ->join('line', 'line.l_id', '=', 'line_assign.l_id')
+            ->join('users', 'users.id', '=', 'line_assign.user_id')
             ->where('line_assign.assign_date', $date)
             ->get();
 
